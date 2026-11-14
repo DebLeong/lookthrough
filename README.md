@@ -1,6 +1,6 @@
 # LookThrough
 
-**Time-travel due diligence for cross-border deals.** LookThrough rebuilds a company's ownership graph and risk picture *as it was knowable on any past date*, using only evidence published before that date, and lines it up against what investors and acquirers actually did.
+**Time-travel search for AI agents.** AI search answers *what's true now*; LookThrough answers *what was knowable then, and how do we know*: retrieval that is **time-bounded** (no future leakage), **verified** (every claim quote-checked against its source) and **connected** (it builds a knowledge graph across engines, languages and archives). We prove it on cross-border investment diligence. LookThrough rebuilds a company's ownership graph and risk picture *as it was knowable on any past date*, using only evidence published before that date, and lines it up against what investors and acquirers actually did.
 
 Built in one day at **SearchHack** (Telem AI) on Telem's multi-engine search router.
 

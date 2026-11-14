@@ -9,10 +9,12 @@
 
 ---
 
-## 0:00–0:25 · Hook (speaker, no clicks)
-> "In December 2025, Meta announced it was buying Manus, a hot AI-agent startup founded in China that had just moved to Singapore. Four months later, Beijing blocked the deal and forced an unwind.
-> Meta had every resource to check. So the real question isn't *could they know?* It's **what was knowable, when, and who decided to go ahead anyway.**
-> Since 2025 that's also a legal question. The US Outbound Investment Rule requires a *'reasonable and diligent inquiry'*, judged on what you knew **at the time of the deal**. Nobody gives deal teams that record. We built it."
+## 0:00–0:25 · Hook: the search problem (speaker, no clicks)
+> "AI search is built to answer *what's true now?* Every serious decision asks something harder: **what was knowable at the time, and how do we know?**
+> Today's AI search can't answer that. It leaks the future, because a page fetched today is today's page. It hallucinates connections. And the context is scattered across engines, languages and archives.
+> We built **time-travel search**: time-bounded, quote-verified, and it builds a knowledge graph. We proved it on the least forgiving customer there is: cross-border investment diligence, where a hallucination or a leaked fact is a legal liability."
+
+*(Optional line if time allows: "In December 2025 Meta announced it was buying Manus, an AI startup founded in China. Beijing blocked it four months later. Meta could have known. The question is what was knowable, when.")*
 
 ## 0:25–1:05 · The look-through (driver: "Known today" view, Manus graph)
 > "This is LookThrough on Manus. Starting from one name, it discovered who really stands behind the company: the Singapore entity, the Beijing operating company, and investors Tencent and IDG. Every link was found live on the web."
@@ -33,14 +35,14 @@
 *Drag the timeline slider slowly to the right* to show later actions appearing: MOFCOM probe, deal blocked, unwind.
 
 ## 1:50–2:30 · Powered by Telem (point at the bottom-right panel)
-> "None of this works on a single search engine. Telem routes every question to the engines suited to it: company questions to Exa, You.com and Linkup, filings questions to Perplexity and Tavily.
+> "Three search primitives make this work: time-bounded retrieval, verified retrieval and connected retrieval. And none of it works on a single search engine. Telem routes every question to the engines suited to it: company questions to Exa, You.com and Linkup, filings questions to Perplexity and Tavily.
 > **In the time-travel run, the best single engine found only 38% of the verified evidence. Telem's routing found the rest.**
 > Telem's `published_before` filter is what makes time travel possible. WeChat surfaced Chinese-language reporting on who co-led the latest round. Every look-through is one Telem session, which is the audit trail, and one click turns a flag into an hourly Telem Monitor."
 
-## 2:30–3:00 · Business (speaker)
-> "Who pays: VC and PE funds doing Asia-adjacent deals, secondaries buyers who inherit hundreds of portfolio companies, and fund-of-funds. Treasury's expanded COINS rule lands by March 2027, and deals signed before it aren't grandfathered.
-> Incumbents sell what's true *today* for entities already in their databases. We rebuild **what was knowable then**, for the long tail no database covers.
-> I spent years doing this by hand in hedge-fund compliance. LookThrough is the tool I wanted. Scan the QR code to explore it yourself."
+## 2:30–3:00 · Why it matters (speaker)
+> "Time-travel search generalizes: litigation, where the question is what they knew and when; investigative journalism; and leak-free backtests for forecasting agents, where you give an agent only what was knowable at that moment.
+> We're starting with a customer who has a legal deadline: VC and PE funds doing cross-border deals, plus secondaries buyers. Treasury's expanded rule lands by March 2027.
+> I spent years doing this by hand in hedge-fund compliance. Scan the QR code and try time travel yourself."
 
 ---
 

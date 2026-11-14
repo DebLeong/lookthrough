@@ -1,10 +1,10 @@
 # Devpost submission: copy and paste
 
 ## Project name (60 max)
-LookThrough: Time-Travel Due Diligence
+LookThrough: Time-Travel Search for AI Agents
 
 ## Elevator pitch (200 max)
-See who really stands behind a deal, and what was knowable on any past date. Quote-verified look-through for cross-border investing, powered by Telem multi-engine search.
+AI search answers what's true now. LookThrough answers what was knowable then: time-bounded, quote-verified search building a knowledge graph across engines, languages and archives. Built on Telem.
 
 ## Built with (tags)
 telem-ai, tavily, exa, perplexity, linkup, you.com, claude, python, fastapi, javascript, cytoscape.js, server-sent-events, opensanctions, internet-archive, wechat, linkedin, rapidfuzz, cloudflare
@@ -14,72 +14,99 @@ telem-ai, tavily, exa, perplexity, linkup, you.com, claude, python, fastapi, jav
 - Code: https://github.com/DebLeong/lookthrough
 
 ## Image gallery (upload in this order)
-1. media/1-live-graph.png: the Manus AI ownership graph, known today
-2. media/3-asof-run.png: time-travel to 2025-12-29, the day before Meta announced
-3. media/2-decision-date.png: timeline slider set to the decision date
+1. media/3-asof-run.png: time-travel search to 2025-12-29
+2. media/1-live-graph.png: the same investigation, known today
+3. media/2-decision-date.png: timeline slider at the decision date
 
 ## Video demo link
-(YouTube unlisted URL; see PRESENTATION.md for the 90-second recording script)
+(YouTube unlisted URL; see PRESENTATION.md)
 
 ---
 
 ## About the project (paste everything below)
 
 ## Inspiration
-I spent years in hedge-fund operations and compliance. The hardest question was never "is this name on a sanctions list?" It was **"who is really behind this deal, three layers down, and what did we know when we said yes?"**
+AI search is built to answer one question: **what's true now?** Every serious decision asks two harder ones: **what was knowable at the time, and how do we know?**
 
-That question just became a legal one. The US Outbound Investment Rule (in force January 2025, codified by the COINS Act in December 2025) requires a *"reasonable and diligent inquiry"* before US investors back Chinese AI, semiconductor or quantum companies. Treasury never defined what that inquiry looks like, and it is judged on what you knew, or should have known, **at the time of the deal**.
+Today's AI search can't answer them:
+- It **leaks the future**: a page fetched today is today's page, and the model reads every update since the date you care about.
+- It **hallucinates connections**: a chatbot on top of search will confidently invent who owns whom.
+- It **fragments context**: the ownership chain behind one company is scattered across filings, press, LinkedIn, Chinese-language WeChat articles and sanctions lists, and no single engine sees it all.
 
-Then came Manus AI. It was founded in China and moved to Singapore in 2025. Meta announced an acquisition in December 2025, and Chinese regulators blocked the deal in April 2026. Meta had every resource to run checks. The question was never "could they know?" It was **what was knowable, when, and who decided to go ahead anyway.** Back office surfaces risk; front office makes the call. Nobody produces the decision record.
+I spent years in hedge-fund compliance, where getting this wrong is a legal liability. Since 2025, the US Outbound Investment Rule requires a *"reasonable and diligent inquiry"* before backing Chinese AI companies, judged on what you knew **at the time of the deal**. So we built search for that standard, and tested it on a real case.
 
-## What it does
-LookThrough rebuilds a company's ownership graph and risk picture **as it was knowable on any past date**.
+**The case: Manus AI.** It was founded in China, moved to Singapore in 2025, and Meta announced an acquisition in December 2025. Beijing blocked the deal four months later. Meta had every resource to check. The question isn't *could they know?* It's what was knowable, when, and who went ahead anyway.
 
-- **Look-through graph:** from a target, it walks up through owners and investors and down through subsidiaries and portfolio companies, discovering every link live from the web.
-- **Every claim is quote-verified:** the LLM only extracts facts with a verbatim quote, and we check that quote against the fetched page. Unverified claims are dropped. 96–100% of claims survive on our case runs.
-- **Rules decide, not the model:**
-  - outbound-rule country and sector tests, including the 50% aggregate ownership test when PRC shareholders' stakes are undisclosed;
-  - OFAC 50% aggregation;
-  - watchlist severity tiers (a DoD 1260H listing is a procurement ban, *not* an investment ban) with listing dates.
-- **Time-travel mode:** every search is restricted to sources published before the chosen date. Undated pages are only admitted through Internet Archive snapshots captured before that date, and watchlist hits must have been listed by then.
-- **"Knowable vs. acted" timeline:** dated risk signals sit beside dated stakeholder actions. Drag the slider to the decision date and see exactly what was already public.
-- **Continuous monitoring:** one click turns a flagged entity into an hourly Telem Monitor.
+## What it does: three search primitives
+**1. Time-bounded retrieval (no future leakage).**
+- Every query carries an as-of date, sent to every engine through Telem's `published_before`.
+- Undated pages are admitted only through Internet Archive snapshots captured before that date, and watchlist hits must have been listed by then.
+- Example: in our Manus run as of 2025-12-29, **54 sources published after the cutoff were excluded.**
 
-**Manus AI, as of 2025-12-29 (the day before Meta's announcement).** LookThrough already flags:
-- Tencent, an investor, on the DoD 1260H list since January 2025;
-- an AI company with PRC shareholders whose stakes are undisclosed, so the aggregate ownership test needs a cap table;
-- a reported US Treasury review of the Benchmark-led round;
-- the House CCP Committee's 2023 probe of Sequoia China (HongShan), another investor.
+**2. Verified retrieval (no chatbot-on-top hallucination).**
+- The LLM may only *propose* facts with a verbatim quote and a source ID.
+- Code checks every quote against the fetched page and drops anything that doesn't match. **100% of surviving claims are verifiable** (122/122 across both runs).
+- Deterministic rules, not the model, make the risk calls.
 
-All of it was public before the deal.
+**3. Connected retrieval (a knowledge graph from scattered sources).**
+- An agent plans a look-through: up through owners and investors, down through subsidiaries and portfolio companies.
+- It routes each sub-question to the right source: live web through Telem's multi-engine router, WeChat and LinkedIn through pinned providers, structured sanctions databases, and the historical archive.
+- It assembles a graph whose every edge has a citation and a date.
 
-## How we used Telem (the core of the build)
-- **Auto-routing (`accuracy`)** on every query. Telem classifies the question (*companies* goes to Exa, You.com and Linkup; *financial_filings* to Exa, Perplexity and Tavily) and we surface each routing decision in the UI.
-- **Multi-engine evidence matters.** In our time-travel run, the **best single engine found only 38% of the verified evidence**; Telem's routing found the rest. In the live run, the best single engine reached 74%.
-- **`published_before`** powers time-travel: point-in-time retrieval across every engine with one parameter.
-- **Pinned platform providers:** WeChat (`socialdatax_wechat`) surfaced Chinese-language reporting that Boyu Capital and IDG Capital co-led Manus's latest round; LinkedIn (`apify_linkedin`) covers team location.
-- **Telem Fetch** reads sources with cross-fetcher fallback and gives us a page hash for the evidence trail.
-- **Sessions:** one Telem session per look-through, so the entire inquiry is traceable in Telem's console. That is the audit trail a "reasonable and diligent inquiry" needs.
-- **Monitors:** hourly, agent-checked re-screening of flagged entities.
+**And a new interface for it:** a timeline slider over the knowledge graph. Drag it to any date, and the graph shows only what was public then, next to what stakeholders actually did.
 
-Without Telem we would need contracts with eight or more search and scraping vendors, plus our own WeChat and LinkedIn access, routing logic and scheduling.
+**Efficient by design.** Cross-engine consensus ranking means we read only **18–26% of the URLs found** in full. A 5-entity investigation costs **about $0.25**, and cached investigations replay for $0.
+
+## The result on Manus (as of 2025-12-29, the day before Meta's announcement)
+Using only evidence available that day, LookThrough flags:
+- **Tencent**, a shareholder, on the Pentagon's 1260H list since January 2025. We label it honestly as a procurement ban, not an investment ban.
+- **A reported US Treasury review** of the Benchmark-led round.
+- **An AI company whose PRC shareholders have undisclosed stakes**, so the 50% ownership test needs a cap table.
+- **The House CCP Committee's 2023 probe** of investor Sequoia China.
+
+All of it was public before the deal. Back office can surface risk; front office decides. LookThrough produces the decision record.
+
+## How we used Telem (the backbone)
+- **Auto-routing (`accuracy`)** on every query: Telem classifies intent (*companies* goes to Exa, You.com and Linkup; *financial_filings* to Exa, Perplexity and Tavily), and the UI shows every routing decision.
+- **Routing measurably matters.** In the time-travel run, **the best single engine found only 38% of the verified evidence**; Telem's routing found the rest. That's 74% in the live run. Historical evidence is the most scattered, which is where routing pays off most.
+- **`published_before`:** point-in-time retrieval across every engine with one parameter. Time travel is impossible without it.
+- **Pinned platforms:** WeChat surfaced Chinese-language reporting that Boyu Capital and IDG co-led Manus's latest round, which English search missed. LinkedIn covers team locations.
+- **Telem Fetch** with cross-fetcher fallback and page hashes for the evidence trail.
+- **Sessions:** one Telem session per investigation, so the whole inquiry is traceable in Telem's console as an audit trail.
+- **Monitors:** one click turns a flagged entity into hourly, agent-checked re-screening.
 
 ## How we built it
-Python and FastAPI stream agent events over Server-Sent Events to a single-page Cytoscape.js UI. The pipeline is: retrieve (Telem plus Tavily), rank by cross-engine consensus, admit (time filter or Wayback snapshot), read (Telem Fetch), extract (Claude), verify quotes, screen (OpenSanctions consolidated lists: OFAC, DoD 1260H, BIS Entity List, UN, UK, EU), apply rules, then expand. Every external call is cached, so finished runs replay instantly and cost nothing.
+Python and FastAPI stream agent events over Server-Sent Events to a Cytoscape.js UI. The pipeline is:
+1. plan;
+2. retrieve (Telem plus Tavily);
+3. rank by cross-engine consensus;
+4. admit (time filter or archived snapshot);
+5. read (Telem Fetch);
+6. extract (Claude);
+7. verify quotes;
+8. screen (OpenSanctions: OFAC, DoD 1260H, BIS, UN, UK, EU) and apply rules;
+9. expand the graph.
+
+Every external call is cached.
 
 ## Challenges
-- **Hallucination in a compliance product is unacceptable.** We solved it structurally: the model only proposes quotes; code verifies them and deterministic rules make the call.
-- **Time leakage.** A page fetched today is today's page. As-of mode therefore only admits dated sources from before the cutoff, or archived snapshots captured before it.
-- **Severity honesty.** Our first version flagged DoD 1260H matches as red. A 1260H listing is a Pentagon procurement ban, not an investment ban, so we rebuilt the tiers with listing dates.
-- **Private ownership is opaque.** Instead of guessing percentages, LookThrough says "aggregate test undetermined" and names the shareholders to ask about.
+- **Time leakage** is subtle: dates from search providers can be missing or wrong, so undated live pages are excluded from as-of runs rather than trusted.
+- **Severity honesty:** our first version treated a 1260H listing as a sanction. It isn't, so we rebuilt the tiers with listing dates.
+- **Private ownership is opaque:** instead of guessing percentages, LookThrough says "undetermined" and names the shareholders to ask about.
 
 ## What we learned
-The valuable output isn't a red flag; it's the **decision record**. Incumbents (Orbis, World-Check, Sayari, Kharon) sell historical data pieces, and consultancies run manual lookbacks. We found no product that rebuilds a company's multi-regime risk picture strictly as it was knowable on a past date and sets it against what decision-makers actually did.
+The most valuable output of AI search for high-stakes decisions isn't an answer. It's a **reproducible, time-stamped, cited record of what could be known**. Incumbents sell historical data pieces, and consultancies run manual lookbacks. We found no product that rebuilds a multi-source picture strictly as it was knowable on a past date.
 
 ## What's next
-- Cap-table ingestion from data rooms for the 50% ownership test.
-- PitchBook and registry connectors.
-- Investor-side KYC (PEPs, source of wealth) on the same graph.
-- Pilots with secondaries buyers, fund-of-funds and cross-border VC funds ahead of the COINS final rule (due March 2027).
+Time-travel search generalizes beyond compliance:
+- **litigation and discovery**: what did they know, and when;
+- **investigative journalism**;
+- **M&A post-mortems**;
+- **leak-free backtests and evaluations for forecasting agents**: give an agent only what was knowable at T and score its predictions.
+
+Next steps:
+- cap-table ingestion;
+- registry and PitchBook connectors;
+- pilots with cross-border VC funds, secondaries buyers and fund-of-funds ahead of the COINS final rule (March 2027).
 
 *Screening signals for counsel review, not legal advice. Watchlist data: OpenSanctions (CC BY-NC).*
