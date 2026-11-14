@@ -10,6 +10,7 @@ import time
 
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse, StreamingResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from .agent import LookThrough
@@ -17,7 +18,25 @@ from .cache import ledger
 from .config import ROOT, RUNS_DIR, TELEM_API_KEY, TELEM_BASE_URL
 
 app = FastAPI(title="LookThrough")
-READONLY = os.environ.get("LOOKTHROUGH_READONLY") == "1"   # public tunnel: replays only, no spend
+READONLY = os.environ.get("LOOKTHROUGH_READONLY") == "1"          # public tunnel: replays only, no spend
+PUBLIC_LIVE = os.environ.get("LOOKTHROUGH_PUBLIC_LIVE") == "1"     # public tunnel: guarded live runs
+PUBLIC_MAX_FRESH_PER_HOUR = int(os.environ.get("LOOKTHROUGH_PUBLIC_MAX_PER_HOUR", "6"))
+_public_lock = threading.Lock()
+_public_stamps: list[float] = []
+app.mount("/media", StaticFiles(directory=ROOT / "media"), name="media")
+
+
+def _public_refusal() -> str | None:
+    """Why a public live run would be refused right now (None = allowed)."""
+    if not PUBLIC_LIVE:
+        return None
+    now = time.time()
+    _public_stamps[:] = [t for t in _public_stamps if now - t < 3600]
+    if len(_public_stamps) >= PUBLIC_MAX_FRESH_PER_HOUR:
+        return "Live slots for this hour are used up. Try a saved company like DeepSeek or Manus AI."
+    if _public_lock.locked():
+        return "Another live run is in progress. Try again in about a minute."
+    return None
 _monitors: dict[str, dict] = {}
 
 
@@ -28,6 +47,11 @@ def _sse(evt: dict) -> str:
 @app.get("/")
 def index():
     return FileResponse(ROOT / "web" / "index.html")
+
+
+@app.get("/story")
+def story():
+    return FileResponse(ROOT / "web" / "story.html")
 
 
 @app.get("/compare")
@@ -42,7 +66,7 @@ def pitch():
 
 @app.get("/api/health")
 def health():
-    status = {"telem": "unknown", "llm": "claude-cli", "readonly": READONLY}
+    status = {"telem": "unknown", "llm": "claude-cli", "readonly": READONLY, "public": PUBLIC_LIVE}
     if READONLY:
         status["telem"] = "ok (replay mode)"
         return status
@@ -60,15 +84,24 @@ async def run(root: str, policy: str = "", kind: str = "company", depth: int = 2
               budget: float = 0.75, offline: bool = False, as_of: str = ""):
     if READONLY:
         raise HTTPException(403, "Public demo is replay-only. Pick a saved run.")
+    if PUBLIC_LIVE:
+        depth, nodes, budget = min(depth, 1), min(nodes, 2), min(budget, 0.5)
+        why = _public_refusal()
+        if why or not _public_lock.acquire(blocking=False):
+            raise HTTPException(429, why or "Another live run is in progress.")
     q: queue.Queue = queue.Queue()
 
     def work():
         try:
-            LookThrough(root, policy=policy, root_kind=kind, max_depth=depth, max_nodes=nodes,
+            r = LookThrough(root, policy=policy, root_kind=kind, max_depth=depth, max_nodes=nodes,
                         budget_usd=budget, offline=offline, emit=q.put, as_of=as_of or None).run()
         except Exception as e:  # noqa: BLE001
             q.put({"type": "error", "msg": f"{type(e).__name__}: {e}"})
+            if PUBLIC_LIVE and r["meter"]["spent_usd"] > 0:   # cached replays don't use a slot
+                _public_stamps.append(time.time())
         finally:
+            if PUBLIC_LIVE and _public_lock.locked():
+                _public_lock.release()
             q.put(None)
 
     threading.Thread(target=work, daemon=True).start()
@@ -86,6 +119,14 @@ async def run(root: str, policy: str = "", kind: str = "company", depth: int = 2
             yield _sse(evt)
 
     return StreamingResponse(stream(), media_type="text/event-stream")
+
+
+@app.get("/api/can_run")
+def can_run():
+    if READONLY:
+        return {"ok": False, "reason": "Public demo is replay-only."}
+    why = _public_refusal()
+    return {"ok": why is None, "reason": why}
 
 
 @app.get("/api/runs")
@@ -139,7 +180,7 @@ class MonitorReq(BaseModel):
 
 @app.post("/api/monitor")
 def create_monitor(req: MonitorReq):
-    if READONLY:
+    if READONLY or PUBLIC_LIVE:
         raise HTTPException(403, "Public demo is replay-only.")
     from telem import Telem
     query = (f"New sanctions designations, export-control listings, government investigations, ownership "

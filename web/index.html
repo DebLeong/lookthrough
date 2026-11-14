@@ -44,7 +44,7 @@ details{margin-top:12px}summary{cursor:pointer;color:var(--muted);font-size:12px
 .cases small{display:block;color:var(--muted);font-size:11.5px}
 .note{color:var(--dim);font-size:11px;margin-top:18px;line-height:1.5}
 
-#cy{position:absolute;inset:0}
+#cy{position:absolute;top:200px;left:0;right:0;bottom:44px}
 .kpis{position:absolute;top:62px;left:16px;right:16px;display:flex;gap:10px;z-index:2;pointer-events:none}
 .kpi{background:#0d121bcc;backdrop-filter:blur(6px);border:1px solid var(--line);border-radius:12px;padding:9px 14px;min-width:120px}
 .kpi b{display:block;font-size:22px;font-weight:700;line-height:1.15}
@@ -116,7 +116,9 @@ nav.chap a:hover{color:var(--text)}
 .toolbar details{margin:0;position:relative}
 .toolbar summary{list-style:none;border:1px solid var(--line);border-radius:8px;padding:6px 10px;color:var(--muted);font-size:13px}
 .toolbar summary::-webkit-details-marker{display:none}
-.toolbar .pop{position:absolute;top:38px;left:0;width:320px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:4px 14px 14px;box-shadow:0 12px 30px #0008}
+.toolbar .pop .row>*{min-width:0}
+.toolbar .pop input,.toolbar .pop select{width:100%}
+.toolbar .pop{position:absolute;top:38px;left:0;width:340px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:4px 14px 14px;box-shadow:0 12px 30px #0008}
 .kpi small{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.7px;color:var(--dim);margin-bottom:1px}
 .disclaimer{color:var(--dim);font-size:11px;margin-top:18px;line-height:1.5}
 </style>
@@ -125,7 +127,7 @@ nav.chap a:hover{color:var(--text)}
 <header>
   <div class="logo">Look<span>Through</span></div>
   <div class="tagline">Time-travel search</div>
-  <nav class="chap"><a class="on" href="/">Investigation</a><a href="/compare">Hindsight test</a><a href="/pitch">Who it's for</a></nav>
+  <nav class="chap"><a href="/story">Story</a><a class="on" href="/">Investigation</a><a href="/compare">Hindsight test</a><a href="/pitch">Who it's for</a></nav>
   <div class="spacer"></div>
   <div class="switch" id="viewSwitch" style="display:none"></div>
 </header>
@@ -239,9 +241,10 @@ function upsertNode(n){
   S.nodes[n.id]=n; if(n.depth===0) S.rootId=n.id;
   const data={id:n.id, label:n.name, kind:n.kind, status:n.status, color:COLORS[riskAt(n)], root:n.depth===0};
   const el=cy.getElementById(n.id);
-  if(el.length) el.data(data); else cy.add({group:"nodes", data});
+  const isNew=!el.length;
+  if(!isNew) el.data(data); else cy.add({group:"nodes", data});
   $("empty").style.display="none"; $("focusBar").style.display="flex"; $("kpis").style.display="flex";
-  applyFocus(false);
+  applyFocus(false); if(isNew) relayout(true);
   if($("detail").dataset.node===n.id) showNode(n.id);
 }
 function addEdge(e){
@@ -249,7 +252,7 @@ function addEdge(e){
   const id=`${e.src}->${e.dst}:${e.type}`;
   if(cy.getElementById(id).length || !cy.getElementById(e.src).length || !cy.getElementById(e.dst).length) return;
   cy.add({group:"edges", data:{id, source:e.src, target:e.dst, type:e.type, label:e.pct!=null?`${e.pct}%`:""}});
-  applyFocus(false);
+  applyFocus(false); relayout(true);
 }
 function applyFocus(final){
   let changed=false;
@@ -304,7 +307,7 @@ function showNode(id){
       </div>`;}).join("") || `<div class="desc">No flags.</div>`}
     ${facts.length?`<details><summary>Verified facts (${facts.length})</summary><table>${facts.map(x=>`<tr><td>${esc(x[0])}</td><td>${esc(x[1])}</td></tr>`).join("")}</table></details>`:""}
     ${(n.sources||[]).length?`<details><summary>Sources read (${n.sources.length}, ranked by cross-engine agreement)</summary>${n.sources.map(s=>`<div class="src"><a href="${esc(s.snapshot||s.url)}" target="_blank">${esc((s.title||s.url).slice(0,60))}</a>${s.date?`<span>${esc(s.date)}</span>`:""}${s.engines.map(x=>`<span class="chip g">${esc(eng(x))}</span>`).join("")}</div>`).join("")}</details>`:""}
-    ${!readonly && r!=="none" && n.status!=="queued"?`<button class="ghost" onclick="monitor('${esc(n.name).replace(/'/g,"")}')">Monitor continuously with Telem</button>`:""}
+    ${!readonly && !window.PUBLIC && r!=="none" && n.status!=="queued"?`<button class="ghost" onclick="monitor('${esc(n.name).replace(/'/g,"")}')">Monitor continuously with Telem</button>`:""}
     <div class="disclaimer">Screening signals for counsel review, not legal advice. Watchlists: OpenSanctions (OFAC, DoD 1260H, BIS, UN, UK, EU).</div>`;
 }
 function dedupe(evs){ const s=new Set(); return (evs||[]).filter(e=>{const k=e.url+"|"+e.quote; if(s.has(k)) return false; s.add(k); return true;}); }
@@ -393,7 +396,8 @@ function renderTelem(){
 function log(msg){ const d=document.createElement("div"); d.innerHTML=msg; $("log").appendChild(d); $("log").scrollTop=1e9; }
 function reset(){
   if(es) es.close(); S=fresh(); cy.elements().remove(); $("log").innerHTML="";
-  $("empty").style.display="flex"; $("kpis").style.display="none"; $("focusBar").style.display="none";
+  $("empty").innerHTML='<b>Map who really stands behind a deal</b><span>Owners, investors and subsidiaries discovered live from the web, every claim quote-verified.</span>';
+  $("empty").style.display="flex"; $("empty").style.justifyContent="center"; $("empty").style.paddingBottom="0"; $("kpis").style.display="none"; $("focusBar").style.display="none";
   $("detail").innerHTML='<div class="desc">Select an entity to see why it is flagged.</div>'; delete $("detail").dataset.node;
   $("slider").value=1000; $("cutLabel").textContent="today"; renderTimeline();
   $("tBody").innerHTML='Every search is routed by Telem to the engines best suited to the question.'; $("tSess").textContent="no session";
@@ -410,6 +414,10 @@ function handle(e){
   else if(e.type==="done"){
     const r=e.result; S.result=r; S.meter=r.meter; S.asOf=r.as_of||null; S.timeline=r.timeline||S.timeline;
     r.nodes.forEach(upsertNode); applyFocus(true); renderTimeline(); renderTelem(); kpis();
+    if(!(r.verification&&r.verification.claims)){
+      $("empty").innerHTML=`<b>No verifiable facts found${r.as_of?` in sources public before ${esc(r.as_of)}`:""}</b><span>${r.excluded_sources?`${r.excluded_sources} later sources were excluded. `:""}LookThrough won't invent what it can't quote. Try a later date or a fuller company name.</span>`;
+      $("empty").style.display="flex"; $("empty").style.justifyContent="flex-end"; $("empty").style.paddingBottom="90px";
+    }
     const q=new URLSearchParams(location.search);
     showNode(q.get("select")&&S.nodes[q.get("select")]?q.get("select"):S.rootId);
     if(q.get("cut")) setTimeout(()=>setCut(q.get("cut")),60);
@@ -422,9 +430,13 @@ function stream(url){
   es.onerror=()=>{ es.close(); $("go").disabled=readonly; };
 }
 function openRun(id){ stream(`/api/replay/${id}?speed=8`); }
-$("go").onclick=()=>{ if(readonly) return;
+function closeSettings(){ document.querySelector(".toolbar details").removeAttribute("open"); }
+document.addEventListener("click",e=>{ if(!e.target.closest(".toolbar details")) closeSettings(); });
+$("go").onclick=()=>{ if(readonly) return; closeSettings();
   const p=new URLSearchParams({root:$("root").value, kind:$("kind").value, depth:$("depth").value, nodes:$("nodes").value,
-    budget:$("budget").value, policy:$("policy").value, as_of:$("asof").value}); stream("/api/run?"+p); };
+    budget:$("budget").value, policy:$("policy").value, as_of:$("asof").value});
+  if(!$("root").value.trim()){ $("root").focus(); return; }
+  fetch("/api/can_run").then(r=>r.json()).then(c=>{ if(c.ok) stream("/api/run?"+p); else alert(c.reason); }); };
 $("slider").oninput=applyCut;
 $("tllist").onclick=ev=>{ const it=ev.target.closest(".it"); if(it) setCut(it.dataset.d); };
 $("showAll").onchange=()=>applyFocus(true);
@@ -439,13 +451,13 @@ async function loadRuns(){
   const today=same.find(r=>!r.as_of), past=same.find(r=>r.as_of);
   if(today&&past){
     $("viewSwitch").style.display="flex";
-    $("viewSwitch").innerHTML=`<button data-id="${past.run_id}">Knowable on ${esc(past.as_of)}</button><button data-id="${today.run_id}">Known today</button>`;
+    $("viewSwitch").innerHTML=`<button data-id="${past.run_id}">Before the deal · ${esc(past.as_of)}</button><button data-id="${today.run_id}">Today, with hindsight</button>`;
     $("viewSwitch").querySelectorAll("button").forEach(b=>{ b.classList.toggle("on", b.dataset.id===S.runId); b.onclick=()=>openRun(b.dataset.id); });
   }
 }
 initCy();
 fetch("/api/health").then(r=>r.json()).then(h=>{
-  readonly=!!h.readonly; const ok=String(h.telem).startsWith("ok");
+  readonly=!!h.readonly; window.PUBLIC=!!h.public; const ok=String(h.telem).startsWith("ok");
   if(readonly){ $("go").disabled=true; $("go").textContent="Replay only"; $("go").title="Public demo: live runs are disabled"; }
   else if(!ok){ $("go").title="Telem offline: runs fall back to Tavily"; }
   loadRuns().then(()=>{

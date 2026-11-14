@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LookThrough — Story</title>
+<style>
+:root{--bg:#0a0d14;--panel:#10151f;--line:#1c2433;--text:#f2f4f8;--muted:#a3afc2;--dim:#66738a;--accent:#2dd4bf;--red:#f05252;--amber:#f5a524;--blue:#60a5fa}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",sans-serif;overflow:hidden}
+.slide{position:absolute;inset:0;padding:5.5vh 6vw 9vh;display:none;flex-direction:column;justify-content:center}
+.slide.on{display:flex;animation:in .35s ease}
+@keyframes in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.kicker{font-size:2.1vw;color:var(--accent);font-weight:700;letter-spacing:.02em;margin-bottom:1.6vh}
+h1{font-size:5.4vw;line-height:1.08;margin:0;font-weight:800;letter-spacing:-.02em}
+h1 em{font-style:normal;color:var(--accent)}
+h1 .r{color:var(--red)}
+.sub{font-size:2.3vw;color:var(--muted);margin-top:3vh;line-height:1.35}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:3vw;margin-top:4vh}
+.col h2{font-size:2.2vw;margin:0 0 2vh;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.col.before h2{color:var(--amber)}.col.after h2{color:var(--blue)}
+.it{display:grid;grid-template-columns:auto 1fr;gap:1.4vw;align-items:baseline;padding:1.7vh 0;border-top:2px solid var(--line)}
+.it .d{font:700 1.7vw ui-monospace,Menlo,monospace;color:var(--muted);white-space:nowrap}
+.it .t{font-size:2.15vw;line-height:1.25;font-weight:600}
+.it .t small{display:block;font-size:1.45vw;color:var(--muted);font-weight:500;margin-top:.4vh}
+.dot{display:inline-block;width:1.2vw;height:1.2vw;border-radius:50%;margin-right:.8vw;vertical-align:.1vw}
+.big3{display:grid;grid-template-columns:repeat(3,1fr);gap:2.4vw;margin-top:5vh}
+.stat{border-top:4px solid var(--accent);padding-top:2.2vh}
+.stat b{display:block;font-size:6.4vw;line-height:1;font-weight:800}
+.stat span{display:block;font-size:2vw;color:var(--text);font-weight:700;margin-top:1.4vh}
+.stat small{display:block;font-size:1.5vw;color:var(--muted);margin-top:.8vh;line-height:1.3}
+.vs{display:grid;grid-template-columns:1.2fr 1fr 1fr;margin-top:4.5vh;font-size:2.4vw}
+.vs div{padding:1.9vh 0;border-top:2px solid var(--line)}
+.vs .h{font-size:1.8vw;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.05em;border-top:0}
+.vs .bad{color:var(--red);font-weight:800}.vs .good{color:var(--accent);font-weight:800}
+.quote{font-size:2.6vw;line-height:1.35;color:var(--text);border-left:6px solid var(--red);padding-left:2vw;margin-top:4vh;font-style:italic}
+.quote mark{background:#4a1010;color:#fecaca;padding:0 .4vw;border-radius:6px;font-style:normal;font-weight:700}
+.qr{display:flex;gap:4vw;align-items:center;margin-top:4vh}
+.qr img{width:24vw;height:24vw;border-radius:16px;background:#fff;padding:1vw}
+.qr .url{font:700 2vw ui-monospace,Menlo,monospace;color:var(--accent);word-break:break-all}
+.foot{position:fixed;left:6vw;right:6vw;bottom:3vh;display:flex;align-items:center;gap:1.5vw;color:var(--dim);font-size:1.15vw;z-index:5}
+.foot .logo{font-weight:800;color:var(--text);font-size:1.5vw}.foot .logo span{color:var(--accent)}
+.foot .prog{display:flex;gap:.6vw;margin-left:auto}
+.foot .prog i{width:2.2vw;height:.5vh;background:var(--line);border-radius:3px}
+.foot .prog i.on{background:var(--accent)}
+.foot a{color:var(--dim)}
+</style>
+</head>
+<body>
+
+<section class="slide">
+  <div class="kicker">LookThrough · time-travel search</div>
+  <h1>What could Meta have known<br><em>before</em> it bought Manus?</h1>
+  <div class="sub">AI search tells you what's true <b>now</b>. Deals, audits and lawsuits ask what was knowable <b>then</b>.</div>
+</section>
+
+<section class="slide">
+  <div class="kicker">The case</div>
+  <h1>Dec 30, 2025: Meta announces<br>it will buy <em>Manus</em>.</h1>
+  <div class="sub">A hot AI-agent startup founded in China, moved to Singapore in 2025.<br>Four months later, <b style="color:var(--text)">Beijing blocked the deal and forced an unwind.</b></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Same company, two dates</div>
+  <div class="cols">
+    <div class="col before">
+      <h2>Knowable the day before</h2>
+      <div class="it"><span class="d">Jan 2025</span><span class="t"><i class="dot" style="background:var(--amber)"></i>Investor Tencent on Pentagon 1260H list<small>procurement ban, not an investment ban</small></span></div>
+      <div class="it"><span class="d">May 2025</span><span class="t"><i class="dot" style="background:var(--red)"></i>US Treasury reviewing Benchmark's $75M Manus round<small>under the outbound investment rule</small></span></div>
+      <div class="it"><span class="d">Oct 2023</span><span class="t"><i class="dot" style="background:var(--red)"></i>Investor Sequoia China probed by House CCP Committee</span></div>
+      <div class="it"><span class="d">—</span><span class="t"><i class="dot" style="background:var(--amber)"></i>AI company, PRC shareholders, undisclosed stakes<small>50% ownership test needed a cap table</small></span></div>
+    </div>
+    <div class="col after">
+      <h2>What happened next</h2>
+      <div class="it"><span class="d">Dec 30</span><span class="t">Meta announces acquisition</span></div>
+      <div class="it"><span class="d">Jan 1, 2026</span><span class="t">China's Commerce Ministry opens investigation</span></div>
+      <div class="it"><span class="d">Apr 27, 2026</span><span class="t">Security review blocks deal, orders unwind</span></div>
+      <div class="it"><span class="d">Jun 15, 2026</span><span class="t">Meta cuts ties; investors buy back its stake</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="kicker">The point</div>
+  <h1>The risk was <em>public</em>.<br>The deal went ahead anyway.</h1>
+  <div class="sub">Back office surfaces risk. Front office makes the call.<br>LookThrough gives both a <b style="color:var(--text)">defensible record of what was knowable</b>, as of the day they signed.</div>
+</section>
+
+<section class="slide">
+  <div class="kicker">"Can't ChatGPT or Claude just do this?"</div>
+  <h1>Smart AI search <span class="r">knows the ending.</span></h1>
+  <div class="quote">Asked about Dec 2025, plain Claude search answered: "The <mark>June 2026</mark> update also kept Tencent on the list."</div>
+  <div class="vs">
+    <div class="h">Same question</div><div class="h">Plain AI search</div><div class="h">LookThrough</div>
+    <div>Hindsight leaks</div><div class="bad">2</div><div class="good">0</div>
+    <div>Quotes checked against source</div><div class="bad">0</div><div class="good">✓ archived page</div>
+    <div>Watchlists screened</div><div class="bad">1</div><div class="good">all, with dates</div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="kicker">How it works: three search primitives</div>
+  <div class="big3">
+    <div class="stat"><b>54</b><span>Time-bounded</span><small>later sources blocked. Nothing after the date is retrievable; undated pages only via archived snapshots</small></div>
+    <div class="stat"><b>100%</b><span>Verified</span><small>of claims quote-checked against the source page. The model proposes; code verifies</small></div>
+    <div class="stat"><b>8</b><span>Connected</span><small>search engines plus WeChat &amp; LinkedIn, assembled into one ownership graph</small></div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Powered by Telem</div>
+  <h1>The best single search engine<br>found only <em>38%</em> of the evidence.</h1>
+  <div class="sub">Telem routed each question to the right engines and found the rest.<br><code style="color:var(--accent)">published_before</code> makes time travel possible. One Telem session per investigation is the audit trail.</div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Who pays</div>
+  <h1>Every US fund backing<br>a cross-border <em>AI</em> deal.</h1>
+  <div class="big3">
+    <div class="stat"><b>15,352</b><span>US VC deals in 2025</span><small>$320B, 65% of it into AI, a sector the outbound rule covers</small></div>
+    <div class="stat"><b>~3,000</b><span>US venture firms</span><small>deal teams use it; the General Counsel buys it</small></div>
+    <div class="stat"><b>Mar 2027</b><span>COINS final rule</span><small>expanded rule; signed-but-unclosed deals not grandfathered</small></div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Try it</div>
+  <h1>Name a company.<br>We'll show what was <em>knowable</em>.</h1>
+  <div class="qr"><img src="/media/qr-demo.png" alt="QR code to the live demo"><div><div class="url" id="url"></div><div class="sub" style="font-size:1.8vw">Investigation · Hindsight test · Who it's for<br>Built on Telem · github.com/DebLeong/lookthrough</div></div></div>
+</section>
+
+<div class="foot"><span class="logo">Look<span>Through</span></span><span>← → to navigate · L opens the live app</span><span class="prog" id="prog"></span></div>
+
+<script>
+const slides=[...document.querySelectorAll(".slide")];
+let i=Math.max(0,Math.min(slides.length-1,(parseInt(location.hash.slice(1))||1)-1));
+document.getElementById("url").textContent = "reaction-asset-colours-health.trycloudflare.com";
+const prog=document.getElementById("prog"); slides.forEach(()=>prog.appendChild(document.createElement("i")));
+function show(n){ i=Math.max(0,Math.min(slides.length-1,n)); slides.forEach((s,k)=>s.classList.toggle("on",k===i));
+  [...prog.children].forEach((p,k)=>p.classList.toggle("on",k<=i)); history.replaceState(null,"","#"+(i+1)); }
+document.addEventListener("keydown",e=>{
+  if(["ArrowRight","PageDown"," ","Enter"].includes(e.key)){ e.preventDefault(); show(i+1); }
+  if(["ArrowLeft","PageUp","Backspace"].includes(e.key)){ e.preventDefault(); show(i-1); }
+  if(e.key.toLowerCase()==="l") window.open("/","_blank");
+  if(e.key==="Home") show(0); if(e.key==="End") show(slides.length-1);
+});
+document.addEventListener("click",e=>{ if(e.target.closest("a")) return; show(e.clientX>innerWidth/3? i+1 : i-1); });
+show(i);
+</script>
+</body>
+</html>
