@@ -436,7 +436,10 @@ $("go").onclick=()=>{ if(readonly) return; closeSettings();
   const p=new URLSearchParams({root:$("root").value, kind:$("kind").value, depth:$("depth").value, nodes:$("nodes").value,
     budget:$("budget").value, policy:$("policy").value, as_of:$("asof").value});
   if(!$("root").value.trim()){ $("root").focus(); return; }
-  fetch("/api/can_run").then(r=>r.json()).then(c=>{ if(c.ok) stream("/api/run?"+p); else alert(c.reason); }); };
+  fetch("/api/can_run").then(r=>r.json()).then(c=>{ if(!c.ok){ alert(c.reason); return; }
+    stream("/api/run?"+p);
+    $("empty").innerHTML=`<b>Researching ${esc($("root").value)}…</b><span>Searching 8 engines through Telem. First results in about 45 seconds; saved companies appear instantly.</span>`;
+  }); };
 $("slider").oninput=applyCut;
 $("tllist").onclick=ev=>{ const it=ev.target.closest(".it"); if(it) setCut(it.dataset.d); };
 $("showAll").onchange=()=>applyFocus(true);
