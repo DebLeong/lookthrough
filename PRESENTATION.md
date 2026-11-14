@@ -2,51 +2,26 @@
 
 **Setup before you go on:**
 - Open http://localhost:8077 full-screen in Chrome, zoomed to 90%. Use the local server, not the tunnel, in case the venue wifi fails.
-- Click **Manus AI · Known today** once so it's cached.
+- In tab 2, type **Builder.ai** and click Run once (it replays from cache in about 2 s).
 - Show the QR code on a phone or a slide: `media/qr-demo.png`. It points to the public replay link.
 
 **Roles:** one person speaks while the other drives the mouse. Rehearse the clicks twice.
 
 ---
 
-## 0:00–0:25 · Hook: a person, a moment, a problem (speaker, no clicks)
-> "Meet the deal team at a US venture fund. Term sheet signed with a hot AI startup: Singapore address, founders from Beijing, Chinese investors on the cap table. Investment committee is Thursday.
-> Since 2025, US law says they must make a **'reasonable and diligent inquiry'** before investing, and it's judged on what they could have known **on the day they signed**. Get it wrong and it's criminal penalties.
-> Today that inquiry is days of analysts and outside counsel, stitched together from scattered searches. Plain AI search makes it worse: it leaks the future and invents connections.
-> We built **time-travel search**: time-bounded, quote-verified, and it builds the ownership graph. Here's the real case: Meta and Manus."
+## The 3-minute run of show: drive `/story` with the arrow keys (one person talks, one clicks)
 
-## 0:25–1:05 · The look-through (driver: "Known today" view, Manus graph)
-> "This is LookThrough on Manus. Starting from one name, it discovered who really stands behind the company: the Singapore entity, the Beijing operating company, and investors Tencent and IDG. Every link was found live on the web."
-
-*Click **Tencent**.*
-> "Every claim carries a verbatim quote, and we check that quote against the source page. On this run, 100% of claims verified. The model only extracts; deterministic rules make the call. For example, Tencent is on the Pentagon's 1260H list. We label that honestly as a **procurement ban, not an investment ban**, with its listing date."
-
-## 1:05–1:50 · The killer feature: time travel (driver: top switch → **"Knowable on 2025-12-29"**)
-> "Now we go back to **December 29, 2025, the day before Meta announced.** LookThrough re-ran the whole investigation using only evidence published before that date. Undated pages only get in through archived snapshots from before that date."
-
-*Point at the yellow banner and the timeline.*
-> "Even then, three entities were flagged:
-> - Tencent on the 1260H list since January 2025;
-> - a Treasury review of the Benchmark-led round;
-> - an AI company whose PRC shareholders have undisclosed stakes, so the 50% ownership test needed a cap table.
-> All of it was public. The back office could have known. The front office went ahead. **This is the decision record.**"
-
-*Drag the timeline slider slowly to the right* to show later actions appearing: MOFCOM probe, deal blocked, unwind.
-
-## 1:50–2:05 · The hindsight test (driver: click **"Hindsight test →"**)
-> "Can't ChatGPT or Claude just do this? We asked plain Claude Code the same question. It found the right facts, then **answered 2025 using 2026 news**. Smart AI search knows the ending. In a lookback, being right with hindsight is being wrong."
-
-## 2:05–2:30 · Powered by Telem (point at the bottom-right panel)
-> "Three search primitives make this work: time-bounded retrieval, verified retrieval and connected retrieval. And none of it works on a single search engine. Telem routes every question to the engines suited to it: company questions to Exa, You.com and Linkup, filings questions to Perplexity and Tavily.
-> **In the time-travel run, the best single engine found only 38% of the verified evidence. Telem's routing found the rest.**
-> Telem's `published_before` filter is what makes time travel possible. WeChat surfaced Chinese-language reporting on who co-led the latest round. Every look-through is one Telem session, which is the audit trail, and one click turns a flag into an hourly Telem Monitor."
-
-## 2:30–3:00 · Who pays and how big (driver: click **"Who it's for →"** at top right)
-> "Daily user: the deal team. Budget holder: the General Counsel, who needs a defensible record for every deal.
-> Last year: 15,352 US venture deals, $320 billion, 65% of it into AI, the sector this rule covers. There are about 3,000 US venture firms. At $25K a year, that's a $75M beachhead before PE, secondaries, corporate M&A and banks. Treasury's expanded rule lands by March 2027.
-> I spent years doing this by hand in hedge-fund compliance. Scan the QR code and try time travel yourself."
-
----
+| Time | Slide | Say |
+|---|---|---|
+| 0:00 | 1 | "AI search knows what's true *now*. Every deal, audit, claim, lawsuit and AI backtest is judged on what was knowable *then*. LookThrough answers that, with proof. Built on Telem." |
+| 0:20 | 2 | "Builder.ai: the AI app-builder backed by Microsoft and SoftBank. Big rounds, then insolvency in 2025. Were the red flags public before the checks were written?" |
+| 0:35 | 3 | "Left: what was public before the 2023 rounds. A 2019 lawsuit. The WSJ said it 'exaggerates its AI capabilities.' Humans in India were building the apps; we machine-verified that quote. Right: what investors did anyway." |
+| 1:00 | 4 | "The risk was public. Back office surfaces it; front office decides. We produce the defensible record." |
+| 1:10 | 5 | "Can't ChatGPT or Claude do this? Plain Claude search brought up the 2025 insolvency and admitted it used its own memory. Smart AI search knows the ending." |
+| 1:35 | 6 | "Three primitives: time-bounded, verified, connected." *(optional: press **L** and show the live graph for 15 s)* |
+| 1:55 | 7 | "Telem: the best single engine found only 64% of our evidence; routing found the rest. `published_before` makes time travel possible." |
+| 2:15 | 8 | "The market: $206B a year in financial-crime compliance, every investment and M&A deal, every AI agent that backtests. Wedge: investor due diligence. Platform: API and MCP." |
+| 2:40 | 9 | "I did this by hand for years in hedge-fund compliance. Name a company and we'll show you what was knowable." |
 
 ## Optional: live audience company (taking the risk)
 Timing measured on Moonshot AI: **first result about 45 s, finished in about 85 s**, $0.11, 2 entities at depth 1 (the app's default settings).
@@ -58,7 +33,7 @@ Timing measured on Moonshot AI: **first result about 45 s, finished in about 85 
 4. At about 2:30, switch to tab 2: *"…and here's the company you picked, built live in 90 seconds."*
 5. If it failed or looks thin, stay on tab 1. Nobody will notice.
 
-**Pre-run (instant, about 2 s):** Moonshot AI, DeepSeek, Zhipu AI, MiniMax, Unitree Robotics, DJI, ByteDance. Type the name exactly and click Run with the default settings.
+**Pre-run (instant, about 2 s):** Builder.ai, plus a few others. Prefer non-geopolitical names. Type the name exactly and click Run with the default settings.
 
 **At the judging table (5:30–6:30):** always offer it. *"Name a company."* Narrate the timeline while it builds.
 

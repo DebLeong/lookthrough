@@ -466,7 +466,7 @@ fetch("/api/health").then(r=>r.json()).then(h=>{
   loadRuns().then(()=>{
     const q=new URLSearchParams(location.search);
     if(q.get("replay")) stream(`/api/replay/${q.get("replay")}?speed=${q.get("speed")||8}`);
-    else if(readonly){ const f=runsCache.find(r=>r.as_of)||runsCache[0]; if(f) openRun(f.run_id); }
+    else if(readonly || window.PUBLIC){ const f=runsCache.find(r=>r.root==="Builder.ai")||runsCache[0]; if(f) openRun(f.run_id); }
   });
 });
 </script>

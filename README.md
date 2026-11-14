@@ -30,25 +30,18 @@ Incumbents (Orbis, World-Check, Kharon, Sayari) answer *"what is true today"* fo
 5. **Timeline: knowable vs. acted.** Dated signals (list additions, regulator actions) sit beside dated stakeholder actions (funding rounds, relocations, acquisitions). Drag the slider to a decision date and see what was already public.
 6. **Continuous monitoring.** One click turns a flagged entity into an hourly Telem Monitor.
 
-## Case study: Manus AI
+## Case study: Builder.ai
+Builder.ai was the "AI" app-builder backed by Microsoft, SoftBank's DeepCore and Insight Partners, and it collapsed into insolvency in 2025. What was public **before** the 2023 rounds:
 
-| Date | Signal / action |
+| Date | Public signal |
 |---|---|
-| 2024-01-31 | IDG Capital added to DoD 1260H list |
-| 2025-01-07 | Tencent added to DoD 1260H list |
-| 2025-04-25 | Benchmark leads $75M Series B with Tencent, HongShan, ZhenFund |
-| 2025-06 | Manus moves HQ and ~40 staff from China to Singapore |
-| 2025-11 | Reports of US Treasury outbound-rule review of the investment |
-| **2025-12-30** | **Meta announces acquisition** |
-| 2026-01-01 | China MOFCOM opens investigation |
-| 2026-04-27 | China's foreign-investment security review blocks the deal, orders unwind |
+| 2019-02 | Former chief business officer sues, alleging investors were told the product was 80% built |
+| 2019-08 | WSJ: the company "exaggerates its AI capabilities to attract customers and investors" |
+| 2019-08 | The Verge: "uses human engineers in India and elsewhere to put together the app" (machine-verified) |
+| 2020-06 | Business Insider: cloud resale "thought to account for a chunk of its revenue" |
+| 2022-03 | Insight Partners still leads a $100M Series C |
 
-The **as-of 2025-12-29** run (the day before Meta's announcement) already flags:
-- Tencent on the 1260H list;
-- a covered sector (AI) with PRC shareholders whose stakes are undisclosed, so the 50% aggregate test is undetermined;
-- the Treasury review.
-
-All of it was knowable. The risk that actually killed the deal came from the *other* jurisdiction. Back office can surface risk; the front office decides. LookThrough produces the decision record.
+**Hindsight test:** asked "as of 2023-05-01", plain Claude search brought up the 2025 insolvency, cited a 2025 bankruptcy article, and used its "own recall". LookThrough stayed inside the window and verified its quotes. See [docs/claude-code-demo.md](docs/claude-code-demo.md).
 
 ## How Telem is used
 
@@ -90,7 +83,7 @@ LookThrough's primitives ship as an MCP server, so Claude Code, Cursor or any MC
 | `verify_quote(url, quote, as_of)` | Checks a quote against the page, or against its archived as-of version, before the agent cites it |
 | `screen_entity(name, as_of)` | Watchlist hits with severity tier and listing date, counting only listings in force on that date |
 
-`.mcp.json` is included, so `claude` run from the repo root picks it up. See [docs/claude-code-demo.md](docs/claude-code-demo.md). On Manus as of 2025-12-29, Claude Code verified the Treasury-review quote against a pre-cutoff archive capture, and *declined* to claim facts it couldn't source inside the time window.
+`.mcp.json` is included, so `claude` run from the repo root picks it up. See [docs/claude-code-demo.md](docs/claude-code-demo.md). Asked about Builder.ai as of 2023-05-01, Claude Code with these tools stayed inside the time window and verified its quotes; plain search leaked the 2025 insolvency.
 
 ## Run it
 
