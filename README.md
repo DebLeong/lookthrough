@@ -80,6 +80,18 @@ flowchart LR
   AG --> C[(Disk cache + run store<br/>instant replay)]
 ```
 
+## Use it from any agent (MCP)
+
+LookThrough's primitives ship as an MCP server, so Claude Code, Cursor or any MCP client gets time-travel search:
+
+| Tool | What it does |
+|---|---|
+| `time_travel_search(query, as_of)` | Telem-routed multi-engine search limited to what was public on `as_of`: dated sources after it are dropped, and undated pages are admitted only through Internet Archive snapshots captured before it |
+| `verify_quote(url, quote, as_of)` | Checks a quote against the page, or against its archived as-of version, before the agent cites it |
+| `screen_entity(name, as_of)` | Watchlist hits with severity tier and listing date, counting only listings in force on that date |
+
+`.mcp.json` is included, so `claude` run from the repo root picks it up. See [docs/claude-code-demo.md](docs/claude-code-demo.md). On Manus as of 2025-12-29, Claude Code verified the Treasury-review quote against a pre-cutoff archive capture, and *declined* to claim facts it couldn't source inside the time window.
+
 ## Run it
 
 ```bash

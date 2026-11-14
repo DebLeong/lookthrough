@@ -55,6 +55,7 @@
 | Is 1260H a sanction? | No: it's a Pentagon procurement ban, not an investment ban. Binding prohibitions (OFAC SDN, NS-CMIC) are tiered red. |
 | Isn't $25K/yr a guess? | Yes, it's a pricing hypothesis. The anchor is that today's alternative is analyst days and outside-counsel hours per deal. We'd validate with design partners. |
 | Cost per look-through? | About $0.25–0.35 in search credits for a 5-entity run, with cached replays free. Compare that with analyst hours. |
+| Can other agents use this? | Yes. It ships as an MCP server: `time_travel_search`, `verify_quote`, `screen_entity`. Show `docs/claude-code-demo.md`: Claude Code answered as of Dec 2025, verified a quote on an archived page, and refused to claim what it couldn't source. |
 | Why Telem? | Routing across about 11 engines plus WeChat and LinkedIn, date filtering, fetch fallback, sessions and monitors behind one API. The best single engine found only 38% of our historical evidence. |
 
 **Before saying any number on stage, check it:** the teammate should confirm the COINS Act dates and the 1260H procurement-ban dates (FY2024 NDAA Sec. 805). The Manus facts come from the tool's cited sources and can be clicked through live.

@@ -7,7 +7,7 @@ LookThrough: Time-Travel Search for AI Agents
 AI search answers what's true now. LookThrough answers what was knowable then: time-bounded, quote-verified search building a knowledge graph across engines, languages and archives. Built on Telem.
 
 ## Built with (tags)
-telem-ai, tavily, exa, perplexity, linkup, you.com, claude, python, fastapi, javascript, cytoscape.js, server-sent-events, opensanctions, internet-archive, wechat, linkedin, rapidfuzz, cloudflare
+telem-ai, mcp, claude-code, tavily, exa, perplexity, linkup, you.com, claude, python, fastapi, javascript, cytoscape.js, server-sent-events, opensanctions, internet-archive, wechat, linkedin, rapidfuzz, cloudflare
 
 ## "Try it out" links
 - Live demo (replay mode): https://reaction-asset-colours-health.trycloudflare.com
@@ -89,6 +89,20 @@ All of it was public before the deal. Back office can surface risk; front office
 - **Telem Fetch** with cross-fetcher fallback and page hashes for the evidence trail.
 - **Sessions:** one Telem session per investigation, so the whole inquiry is traceable in Telem's console as an audit trail.
 - **Monitors:** one click turns a flagged entity into hourly, agent-checked re-screening.
+
+## Time-travel search for any agent (MCP)
+LookThrough's primitives also ship as an **MCP server**, so Claude Code, Cursor or any agent can call them:
+- `time_travel_search(query, as_of)`
+- `verify_quote(url, quote, as_of)`
+- `screen_entity(name, as_of)`
+
+We tested it with Claude Code on Manus as of 2025-12-29:
+- It found the May 2025 reports of a Treasury review.
+- It verified the key quote against an **Internet Archive capture from before the cutoff**.
+- It labelled Tencent's 1260H listing correctly as a procurement ban, not an investment ban.
+- It **declined to assert** a fact it couldn't source within the time window.
+
+Today's coding agents can't guarantee they aren't reading the future, and they can't verify their own citations. These three tools add both, all routed through Telem.
 
 ## How we built it
 Python and FastAPI stream agent events over Server-Sent Events to a Cytoscape.js UI. The pipeline is:
