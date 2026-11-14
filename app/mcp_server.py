@@ -17,7 +17,7 @@ from datetime import date
 from mcp.server.mcpserver import MCPServer
 from rapidfuzz import fuzz
 
-from .agent import norm_date
+from .agent import mentions_future, norm_date
 from .config import RUN_BUDGET_USD
 from .screening import watchlist
 from .search import Meter, SearchClient
@@ -79,6 +79,15 @@ def time_travel_search(query: str, as_of: str | None = None, max_sources: int = 
             p = pages.get(a["read_url"].rstrip("/"))
             a["excerpt"] = _clean(p.content)[:1500] if p and p.ok else None
             a["sha256"] = p.sha256 if p and p.ok else None
+    if as_of:   # layer 3: content scan, since provider publish dates can be wrong
+        clean = []
+        for a in admitted:
+            yr = mentions_future((a.get("excerpt") or "") + " " + a["snippet"], as_of)
+            if yr:
+                excluded += 1
+                continue
+            clean.append(a)
+        admitted = clean
     for a in admitted:
         a.pop("read_url", None)
 

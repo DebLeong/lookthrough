@@ -44,38 +44,38 @@ nav.chap a.on{color:#e6e9ef;background:#10151f}nav.chap a:hover{color:#e6e9ef}
   <div class="top"><div class="logo">Look<span>Through</span></div>
     <nav class="chap"><a href="/story">Story</a><a href="/">Investigation</a><a class="on" href="/compare">Hindsight test</a><a href="/pitch">Who it's for</a></nav></div>
   <h1>Smart AI search knows the ending. <em>That's the problem.</em></h1>
-  <div class="q">Same question, same model (Claude Code): <b>"As of 2025-12-29</b>, what was publicly known about US scrutiny of investment in Manus AI, and was investor Tencent on any US government list?"</div>
+  <div class="q">Same question, same model (Claude Code): <b>"As of 2023-05-01</b>, what was publicly known about concerns that Builder.ai (formerly Engineer.ai) overstated its use of AI?" <span style="color:var(--dim)">Builder.ai was backed by Microsoft, SoftBank's DeepCore and Insight Partners, and collapsed into insolvency in 2025.</span></div>
 
   <div class="cols">
     <div class="col bad">
       <h2>Plain AI web search</h2>
       <div class="sub">Claude Code + WebSearch / WebFetch</div>
-      <div class="item"><span class="ok">✓</span> Found the May 2025 Treasury review of Benchmark's $75M round (Semafor).</div>
-      <div class="item"><span class="ok">✓</span> Found Tencent's 1260H listing (Jan 2025).</div>
-      <div class="item"><span class="x">✗</span> <b>Answered 2025 using 2026:</b> "The next update wasn't until <span class="leak">February 2026</span>… The <span class="leak">June 2026</span> update also kept Tencent on the list."</div>
-      <div class="item"><span class="x">✗</span> <b>"Verbatim" quote never checked</b> against the page; the fetch tool returns a model summary.</div>
-      <div class="item"><span class="x">✗</span> <b>Checked one list:</b> "I only checked the 1260H list; I didn't check… other US lists."</div>
+      <div class="item"><span class="ok">✓</span> Found the Aug 2019 WSJ report and the 2019 insider lawsuit.</div>
+      <div class="item"><span class="x">✗</span> <b>Brought up the ending:</b> "the later stories about faked revenue and the <span class="leak">2025 insolvency</span>…"</div>
+      <div class="item"><span class="x">✗</span> <b>Cited a <span class="leak">2025 bankruptcy</span> article</b> as a source for pre-2023 facts.</div>
+      <div class="item"><span class="x">✗</span> <b>Used memory, not sources:</b> "This bullet comes from <span class="leak">my own recall</span>."</div>
+      <div class="item"><span class="x">✗</span> <b>"Verbatim" quote taken second-hand</b> from a Slashdot excerpt, never checked.</div>
     </div>
     <div class="col good">
       <h2>LookThrough time-travel search</h2>
       <div class="sub">Claude Code + LookThrough MCP (Telem-routed)</div>
-      <div class="item"><span class="ok">✓</span> Found the May 2025 Treasury review (Semafor, TechCrunch, Proskauer), all dated before the cutoff.</div>
-      <div class="item"><span class="ok">✓</span> <b>Nothing after 2025-12-29 was retrievable.</b> Telem <code>published_before</code> on every engine; undated pages only via archive snapshots captured before the date.</div>
-      <div class="item"><span class="ok">✓</span> <b>Quote machine-verified</b>: exact match on the Internet Archive capture from 2025-09-09, with page hash.</div>
-      <div class="item"><span class="ok">✓</span> <b>Screened every list</b> (OFAC, 1260H, BIS, UN, UK, EU) with listing dates: 1260H since 2025-01-07, <i>procurement ban, not an investment ban</i>; no binding listing.</div>
-      <div class="item"><span class="ok">✓</span> Didn't assert what it couldn't source inside the window.</div>
+      <div class="item"><span class="ok">✓</span> Found the Aug 2019 WSJ report ("exaggerates its AI capabilities to attract customers and investors"), the insider lawsuit, and the 2020 coverage, all dated before the cutoff.</div>
+      <div class="item"><span class="ok">✓</span> <b>Quote machine-verified:</b> exact match on The Verge's page: "uses human engineers in India and elsewhere to put together the app."</div>
+      <div class="item"><span class="ok">✓</span> <b>Knowable vs. acted:</b> despite the 2019 reports, Insight Partners led a $100M round in 2022.</div>
+      <div class="item"><span class="ok">✓</span> <b>Caught 2 sources with wrong provider dates</b> (labelled 2019 and 2022, really about 2025) and excluded them. A content scan now does this automatically.</div>
+      <div class="item"><span class="ok">✓</span> Screened all watchlists: none. "A fraud and misrepresentation risk, not a sanctions one."</div>
     </div>
   </div>
 
   <div class="score">
-    <div class="s"><h4>Hindsight leaks</h4><div>Plain <b style="color:var(--red)">2</b></div><div>LookThrough <b style="color:var(--green)">0</b></div></div>
-    <div class="s"><h4>Quotes machine-verified</h4><div>Plain <b style="color:var(--red)">0</b></div><div>LookThrough <b style="color:var(--green)">yes, on archived page</b></div></div>
-    <div class="s"><h4>Watchlists checked</h4><div>Plain <b style="color:var(--red)">1</b></div><div>LookThrough <b style="color:var(--green)">all, with dates</b></div></div>
+    <div class="s"><h4>Hindsight leaks</h4><div>Plain <b style="color:var(--red)">3</b></div><div>LookThrough <b style="color:var(--green)">0</b></div></div>
+    <div class="s"><h4>Quotes machine-verified</h4><div>Plain <b style="color:var(--red)">0</b></div><div>LookThrough <b style="color:var(--green)">yes</b></div></div>
+    <div class="s"><h4>Answers from memory</h4><div>Plain <b style="color:var(--red)">yes</b></div><div>LookThrough <b style="color:var(--green)">never</b></div></div>
     <div class="s"><h4>Audit trail</h4><div>Plain <b style="color:var(--red)">none</b></div><div>LookThrough <b style="color:var(--green)">hashes + Telem session</b></div></div>
   </div>
 
   <div class="bottom">In a lookback, <b>being right with hindsight is being wrong.</b> LookThrough produces an answer you can defend as a record of what was knowable.</div>
-  <div class="foot">Real outputs, run 2026-11-14, full transcripts in docs/claude-code-demo.md. Plain search also found Tencent as a Manus backer; LookThrough's full look-through agent found it too, but its quick search tool did not. Recall is ongoing work.</div>
+  <div class="foot">Real outputs, run 2026-11-14; transcripts in docs/claude-code-demo.md. LookThrough's verify_quote checked the live page because no archive snapshot existed for it.</div>
 </div>
 </body>
 </html>

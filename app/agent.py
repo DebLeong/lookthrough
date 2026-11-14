@@ -73,6 +73,19 @@ def norm_date(s) -> str | None:
     return out if "1980-01-01" <= out <= date.today().isoformat() else None
 
 
+_YEAR = re.compile(r"\b(19[89]\d|20\d\d)\b")
+
+
+def mentions_future(text: str, as_of: str | None) -> str | None:
+    """Content-level leakage check: does the text mention a year after the as-of date?
+    Provider publish dates can be wrong, so dated sources are re-checked by content."""
+    if not as_of or not text:
+        return None
+    cutoff = int(as_of[:4])
+    later = sorted({int(y) for y in _YEAR.findall(text) if int(y) > cutoff})
+    return str(later[0]) if later else None
+
+
 def _min_date(ds) -> str | None:
     ds = [d for d in ds if d]
     return min(ds) if ds else None
@@ -384,6 +397,20 @@ Return JSON:
                 pages[p.url.rstrip("/")] = p
         pages = {u: pages[u.rstrip("/")] for u in to_read if u.rstrip("/") in pages}
         self._meter()
+        if self.as_of:   # layer 3: content scan (catches wrong provider dates)
+            kept, leaked = [], 0
+            for a in admitted:
+                p = pages.get(a["read_url"])
+                text = (p.content if p and p.ok else "") + " " + " ".join(h.snippet for h in a["hits"])
+                if mentions_future(text, self.as_of):
+                    leaked += 1
+                    continue
+                kept.append(a)
+            if leaked:
+                self.excluded_sources += leaked
+                self._log(f"Content scan: dropped {leaked} source(s) that mention years after {self.as_of} "
+                          f"(wrong provider dates)", node.id)
+            admitted = kept
         node.sources = [{"url": a["url"], "engines": sorted({h.engine for h in a["hits"]}), "title": a["hits"][0].title,
                          "date": a["date"], "snapshot": a["snapshot"],
                          "read": a["read_url"] in pages and pages[a["read_url"]].ok,

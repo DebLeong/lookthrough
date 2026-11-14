@@ -14,11 +14,11 @@ telem-ai, mcp, claude-code, tavily, exa, perplexity, linkup, you.com, claude, py
 - Code: https://github.com/DebLeong/lookthrough
 
 ## Image gallery (upload in this order)
-1. media/3-asof-run.png: time-travel search to 2025-12-29
-2. media/1-live-graph.png: the same investigation, known today
-3. media/2-decision-date.png: timeline slider at the decision date
-4. media/5-hindsight-test.png: plain AI search vs LookThrough, same question
-5. media/4-who-its-for.png: who it's for and market size
+1. media/6-story-case.png: what was public vs. what investors did (Builder.ai)
+2. media/5-hindsight-test.png: plain AI search vs LookThrough, same question
+3. media/1-live-graph.png: the investigation graph
+4. media/7-story-market.png: the market
+5. media/4-who-its-for.png: who it's for
 
 ## Video demo link
 (YouTube unlisted URL; see PRESENTATION.md)
@@ -37,12 +37,12 @@ Today's AI search can't answer them:
 
 I spent years in hedge-fund compliance, where getting this wrong is a legal liability. Since 2025, the US Outbound Investment Rule requires a *"reasonable and diligent inquiry"* before backing Chinese AI companies, judged on what you knew **at the time of the deal**. So we built search for that standard, and tested it on a real case.
 
-**The case: Manus AI.** It was founded in China, moved to Singapore in 2025, and Meta announced an acquisition in December 2025. Beijing blocked the deal four months later. Meta had every resource to check. The question isn't *could they know?* It's what was knowable, when, and who went ahead anyway.
+**The case: Builder.ai.** It was the "AI" app-builder backed by Microsoft, SoftBank's DeepCore and Insight Partners. It raised large rounds through 2022–2023 and collapsed into insolvency in 2025, amid reports its revenue was overstated. The question every investor asked afterwards: **were the red flags public before we wrote the check?**
 
 ## Who it's for
 **The big picture.** Any decision that must hold up later, and any AI agent that makes one, needs to know what was knowable at the time, and prove it:
 - **Financial-crime compliance:** $206B a year globally, 57% of it labor (LexisNexis). A KYC refresh is literally "what changed since the last review."
-- **Investment and M&A diligence:** 15,352 US VC deals in 2025 alone, plus PE and corporate M&A (Meta–Manus).
+- **Investment and M&A diligence:** 15,352 US VC deals in 2025 alone, plus PE and corporate M&A.
 - **AI agents that backtest or forecast:** research shows date-filtered retrieval alone still leaks the future (*Pitfalls in Evaluating Language Model Forecasters*; Li et al. 2026).
 - **Legal and insurance:** "what did they know, and when?"
 
@@ -50,7 +50,7 @@ LookThrough is horizontal search infrastructure (API + MCP). **The wedge** is cr
 
 - **Daily user: the deal team at a VC or PE fund.** The term sheet is signed with an AI startup that has any Asia nexus (founders, investors, entities, engineers) and the investment committee meets Thursday. They type the name and get the ownership graph, a cited evidence record, and the questions to put to the founder.
 - **Budget holder: the General Counsel or CCO.** They own the legal risk (US outbound rule, OFAC 50% rule, LP exclusion policies) and need a time-stamped "reasonable and diligent inquiry" record for every deal, plus monitoring after closing.
-- **Expansion:** secondaries buyers and fund-of-funds (hundreds of inherited portfolio companies per deal), corporate M&A teams (Meta–Manus), banks lending to funds, and law firms.
+- **Expansion:** secondaries buyers and fund-of-funds (hundreds of inherited portfolio companies per deal), corporate M&A teams, banks lending to funds, and law firms.
 
 **Market (bottom-up).**
 - In 2025 there were **15,352 US VC deals worth $320B**, and **65% of the dollars went to AI**, the sector the rule covers.
@@ -65,11 +65,12 @@ Sources: NVCA 2026 Yearbook; citybiz/NVCA on the AI share.
 **1. Time-bounded retrieval (no future leakage).**
 - Every query carries an as-of date, sent to every engine through Telem's `published_before`.
 - Undated pages are admitted only through Internet Archive snapshots captured before that date, and watchlist hits must have been listed by then.
-- Example: in our Manus run as of 2025-12-29, **54 sources published after the cutoff were excluded.**
+- A **content scan** then drops any source that mentions a year after the cutoff, which catches wrong provider dates.
+- Across our runs, **151 later sources were blocked.**
 
 **2. Verified retrieval (no chatbot-on-top hallucination).**
 - The LLM may only *propose* facts with a verbatim quote and a source ID.
-- Code checks every quote against the fetched page and drops anything that doesn't match. **100% of surviving claims are verifiable** (122/122 across both runs).
+- Code checks every quote against the fetched page and drops anything that doesn't match. **97% of 493 extracted claims** matched their source word for word; the rest were dropped.
 - Deterministic rules, not the model, make the risk calls.
 
 **3. Connected retrieval (a knowledge graph from scattered sources).**
@@ -79,22 +80,22 @@ Sources: NVCA 2026 Yearbook; citybiz/NVCA on the AI share.
 
 **And a new interface for it:** a timeline slider over the knowledge graph. Drag it to any date, and the graph shows only what was public then, next to what stakeholders actually did.
 
-**Efficient by design.** Cross-engine consensus ranking means we read only **18–26% of the URLs found** in full. A 5-entity investigation costs **about $0.25**, and cached investigations replay for $0.
+**Efficient by design.** Cross-engine consensus ranking means only the top pages are read in full. 19 investigations covering 161 entities cost **$2.64** in total, and cached investigations replay for $0.
 
-## The result on Manus (as of 2025-12-29, the day before Meta's announcement)
-Using only evidence available that day, LookThrough flags:
-- **Tencent**, a shareholder, on the Pentagon's 1260H list since January 2025. We label it honestly as a procurement ban, not an investment ban.
-- **A reported US Treasury review** of the Benchmark-led round.
-- **An AI company whose PRC shareholders have undisclosed stakes**, so the 50% ownership test needs a cap table.
-- **The House CCP Committee's 2023 probe** of investor Sequoia China.
+## The result on Builder.ai (what was public before the 2023 rounds)
+- **Feb 2019:** a former chief business officer sued, alleging the founder told investors the product was 80% built.
+- **Aug 2019:** the WSJ reported the company "exaggerates its AI capabilities to attract customers and investors."
+- **Aug 2019:** The Verge: it "uses human engineers in India and elsewhere to put together the app" (**machine-verified quote**).
+- **Jun 2020:** Business Insider: cloud resale was "thought to account for a chunk of its revenue."
+- **Then:** Insight Partners led a $100M Series C in March 2022, followed by larger 2023 backing.
 
-All of it was public before the deal. Back office can surface risk; front office decides. LookThrough produces the decision record.
+All of it was public. Back office can surface risk; front office decides. LookThrough produces the decision record.
 
 ## How we used Telem (the backbone)
 - **Auto-routing (`accuracy`)** on every query: Telem classifies intent (*companies* goes to Exa, You.com and Linkup; *financial_filings* to Exa, Perplexity and Tavily), and the UI shows every routing decision.
-- **Routing measurably matters.** In the time-travel run, **the best single engine found only 38% of the verified evidence**; Telem's routing found the rest. That's 74% in the live run. Historical evidence is the most scattered, which is where routing pays off most.
+- **Routing measurably matters.** Across 19 investigations, **the best single engine found only 64% of the verified evidence**; Telem's routing across 10 engines and platforms found the other 36%.
 - **`published_before`:** point-in-time retrieval across every engine with one parameter. Time travel is impossible without it.
-- **Pinned platforms:** WeChat surfaced Chinese-language reporting that Boyu Capital and IDG co-led Manus's latest round, which English search missed. LinkedIn covers team locations.
+- **Pinned platforms:** WeChat (Chinese-language sources) and LinkedIn (people and teams) add evidence that web search engines miss.
 - **Telem Fetch** with cross-fetcher fallback and page hashes for the evidence trail.
 - **Sessions:** one Telem session per investigation, so the whole inquiry is traceable in Telem's console as an audit trail.
 - **Monitors:** one click turns a flagged entity into hourly, agent-checked re-screening.
@@ -105,9 +106,9 @@ LookThrough's primitives also ship as an **MCP server**, so Claude Code, Cursor 
 - `verify_quote(url, quote, as_of)`
 - `screen_entity(name, as_of)`
 
-**The hindsight test (real outputs, same model, same question):** *"As of 2025-12-29, what was known about US scrutiny of Manus, and was investor Tencent on any US list?"*
-- **Plain Claude Code web search** found the right facts, but **answered 2025 using 2026**: "The next update wasn't until February 2026… the June 2026 update also kept Tencent on the list." Its "verbatim" quote was never checked against the page, and it checked only one watchlist.
-- **Claude Code + LookThrough:** nothing after the cutoff was retrievable; the key quote was **machine-verified on an Internet Archive capture from before the cutoff**; all watchlists were screened with listing dates; and it declined to assert anything it couldn't source inside the window.
+**The hindsight test (real outputs, same model, same question):** *"As of 2023-05-01, what was known about concerns that Builder.ai overstated its AI?"*
+- **Plain Claude Code web search** found the 2019 reports, but **brought up the ending** ("the later stories about faked revenue and the 2025 insolvency"), **cited a 2025 bankruptcy article** for pre-2023 facts, and admitted one point came from **"my own recall."**
+- **Claude Code + LookThrough** stayed inside the window, **machine-verified** its key quote, and **caught two sources with wrong provider dates** (labelled 2019/2022, actually about 2025). That check is now automated with a content scan.
 
 Smart AI search knows the ending, and that's the problem. In a lookback, being right with hindsight is being wrong.
 
