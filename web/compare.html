@@ -34,12 +34,15 @@ h1 em{font-style:normal;color:var(--accent)}
 .bottom{margin-top:18px;font-size:18px;text-align:center;color:var(--muted)}
 .bottom b{color:var(--text)}
 .foot{color:var(--dim);font-size:12px;margin-top:14px;text-align:center}
+nav.chap{display:flex;gap:2px;margin-left:auto}
+nav.chap a{color:#93a0b4;font-size:14px;font-weight:600;padding:7px 12px;border-radius:8px;text-decoration:none}
+nav.chap a.on{color:#e6e9ef;background:#10151f}nav.chap a:hover{color:#e6e9ef}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="top"><div class="logo">Look<span>Through</span></div>
-    <div class="nav"><a href="/">Demo</a><a href="/pitch">Who it's for</a></div></div>
+    <nav class="chap"><a href="/">Investigation</a><a class="on" href="/compare">Hindsight test</a><a href="/pitch">Who it's for</a></nav></div>
   <h1>Smart AI search knows the ending. <em>That's the problem.</em></h1>
   <div class="q">Same question, same model (Claude Code): <b>"As of 2025-12-29</b>, what was publicly known about US scrutiny of investment in Manus AI, and was investor Tencent on any US government list?"</div>
 

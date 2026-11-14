@@ -25,12 +25,12 @@ header{height:58px;display:flex;align-items:center;gap:18px;padding:0 18px;borde
 .pill{font-size:12px;padding:4px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
 .pill.ok{color:var(--accent);border-color:#134e4a}
 
-main{display:grid;grid-template-columns:250px 1fr 380px;grid-template-rows:1fr 232px;height:calc(100% - 58px)}
+main{display:grid;grid-template-columns:1fr 390px;grid-template-rows:1fr 232px;height:calc(100% - 58px)}
 #left{grid-row:1/3;border-right:1px solid var(--line);padding:16px;overflow:auto;background:var(--panel2)}
-#center{grid-column:2;grid-row:1;position:relative;min-height:0}
-#bottom{grid-column:2;grid-row:2;border-top:1px solid var(--line);display:flex;flex-direction:column;min-height:0}
-#detail{grid-column:3;grid-row:1;border-left:1px solid var(--line);padding:16px 18px;overflow:auto}
-#telem{grid-column:3;grid-row:2;border-left:1px solid var(--line);border-top:1px solid var(--line);padding:12px 16px;overflow:auto;background:var(--panel2)}
+#center{grid-column:1;grid-row:1;position:relative;min-height:0}
+#bottom{grid-column:1;grid-row:2;border-top:1px solid var(--line);display:flex;flex-direction:column;min-height:0}
+#detail{grid-column:2;grid-row:1;border-left:1px solid var(--line);padding:16px 18px;overflow:auto}
+#telem{grid-column:2;grid-row:2;border-left:1px solid var(--line);border-top:1px solid var(--line);padding:12px 16px;overflow:auto;background:var(--panel2)}
 
 label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.7px;color:var(--dim);margin:14px 0 6px}
 input,textarea,select{width:100%;background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:9px 10px;font:inherit;font-size:13px}
@@ -45,7 +45,7 @@ details{margin-top:12px}summary{cursor:pointer;color:var(--muted);font-size:12px
 .note{color:var(--dim);font-size:11px;margin-top:18px;line-height:1.5}
 
 #cy{position:absolute;inset:0}
-.kpis{position:absolute;top:14px;left:16px;right:16px;display:flex;gap:10px;z-index:2;pointer-events:none}
+.kpis{position:absolute;top:62px;left:16px;right:16px;display:flex;gap:10px;z-index:2;pointer-events:none}
 .kpi{background:#0d121bcc;backdrop-filter:blur(6px);border:1px solid var(--line);border-radius:12px;padding:9px 14px;min-width:120px}
 .kpi b{display:block;font-size:22px;font-weight:700;line-height:1.15}
 .kpi span{font-size:11.5px;color:var(--muted)}
@@ -106,52 +106,55 @@ table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:6px}td{pad
 .bar{display:grid;grid-template-columns:120px 1fr 34px;gap:8px;align-items:center;font-size:11.5px;color:var(--muted);margin-top:3px}
 .bar i{display:block;height:6px;border-radius:3px;background:var(--accent)}
 .big{font-size:13px;color:var(--text);margin-top:6px}.big b{color:var(--accent);font-size:16px}
+nav.chap{display:flex;gap:2px;margin-left:10px}
+nav.chap a{color:var(--muted);font-size:13px;font-weight:600;padding:7px 12px;border-radius:8px;text-decoration:none}
+nav.chap a.on{color:var(--text);background:var(--panel)}
+nav.chap a:hover{color:var(--text)}
+.toolbar{position:absolute;top:12px;left:16px;z-index:3;display:flex;gap:8px;align-items:center}
+.toolbar input{width:200px;padding:7px 10px}.toolbar input[type=date]{width:150px}
+.toolbar .btn{width:auto;margin:0;padding:7px 14px}
+.toolbar details{margin:0;position:relative}
+.toolbar summary{list-style:none;border:1px solid var(--line);border-radius:8px;padding:6px 10px;color:var(--muted);font-size:13px}
+.toolbar summary::-webkit-details-marker{display:none}
+.toolbar .pop{position:absolute;top:38px;left:0;width:320px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:4px 14px 14px;box-shadow:0 12px 30px #0008}
+.kpi small{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.7px;color:var(--dim);margin-bottom:1px}
+.disclaimer{color:var(--dim);font-size:11px;margin-top:18px;line-height:1.5}
 </style>
 </head>
 <body>
 <header>
   <div class="logo">Look<span>Through</span></div>
-  <div class="tagline">Time-travel search: what was knowable, when, and how we know.</div>
+  <div class="tagline">Time-travel search</div>
+  <nav class="chap"><a class="on" href="/">Investigation</a><a href="/compare">Hindsight test</a><a href="/pitch">Who it's for</a></nav>
   <div class="spacer"></div>
   <div class="switch" id="viewSwitch" style="display:none"></div>
-  <a class="pill" href="/compare" style="color:var(--text)">Hindsight test →</a>
-  <a class="pill" href="/pitch" style="color:var(--text)">Who it's for →</a>
-  <span class="pill" id="telemPill">Telem</span>
 </header>
 <main>
-  <aside id="left">
-    <label>Company or fund</label>
-    <input id="root" value="Manus AI">
-    <label>As-of date <span style="text-transform:none;letter-spacing:0">(optional)</span></label>
-    <input id="asof" type="date">
-    <button class="btn" id="go">Run look-through</button>
-    <details>
-      <summary>Settings</summary>
-      <div class="row">
-        <div><label>Type</label><select id="kind"><option value="company">Company</option><option value="fund">Fund</option></select></div>
-        <div><label>Depth</label><select id="depth"><option>1</option><option selected>2</option><option>3</option></select></div>
-      </div>
-      <div class="row">
-        <div><label>Entities</label><input id="nodes" type="number" value="5" min="1" max="20"></div>
-        <div><label>Budget $</label><input id="budget" type="number" value="1" step="0.25"></div>
-      </div>
-      <label>Policy</label>
-      <textarea id="policy">US investor. Flag outbound-investment (China AI / semiconductors / quantum) exposure and sanctions. Exclude firearms, controversial weapons and mass-surveillance technology.</textarea>
-    </details>
-    <label style="margin-top:22px">Saved cases</label>
-    <div class="cases" id="runs"></div>
-    <div class="note">Screening signals for counsel review, not legal advice. Watchlists: OpenSanctions (OFAC, DoD 1260H, BIS, UN, UK, EU).</div>
-  </aside>
-
   <section id="center">
     <div id="cy"></div>
-    <div class="kpis" id="kpis" style="display:none">
-      <div class="kpi red"><b id="kFlag">0</b><span>entities flagged</span></div>
-      <div class="kpi"><b id="kMap">0</b><span>entities mapped</span></div>
-      <div class="kpi teal"><b id="kVer">–</b><span>claims verified in source</span></div>
-      <div class="kpi"><b id="kEng">0</b><span>engines via Telem</span></div>
+    <div class="toolbar">
+      <input id="root" value="Manus AI" aria-label="Company or fund">
+      <input id="asof" type="date" aria-label="As-of date" title="As-of date (optional): only evidence public on or before this date">
+      <button class="btn" id="go">Run</button>
+      <details><summary>Settings</summary><div class="pop">
+        <div class="row">
+          <div><label>Type</label><select id="kind"><option value="company">Company</option><option value="fund">Fund</option></select></div>
+          <div><label>Depth</label><select id="depth"><option>1</option><option selected>2</option><option>3</option></select></div>
+        </div>
+        <div class="row">
+          <div><label>Entities</label><input id="nodes" type="number" value="5" min="1" max="20"></div>
+          <div><label>Budget $</label><input id="budget" type="number" value="1" step="0.25"></div>
+        </div>
+        <label>Policy</label>
+        <textarea id="policy">US investor. Flag outbound-investment (China AI / semiconductors / quantum) exposure and sanctions. Exclude firearms, controversial weapons and mass-surveillance technology.</textarea>
+      </div></details>
     </div>
-    <div class="asof-banner" id="asofBanner"></div>
+    <div class="kpis" id="kpis" style="display:none">
+      <div class="kpi red"><small>Risk</small><b id="kFlag">0</b><span id="kFlagL">entities flagged</span></div>
+      <div class="kpi"><small>Connected</small><b id="kMap">0</b><span id="kMapL">entities linked</span></div>
+      <div class="kpi teal"><small>Verified</small><b id="kVer">–</b><span id="kVerL">claims quote-checked</span></div>
+      <div class="kpi"><small>Time-bounded</small><b id="kTime">today</b><span id="kTimeL">pick a date to time-travel</span></div>
+    </div>
     <div class="empty" id="empty"><b>Map who really stands behind a deal</b><span>Owners, investors and subsidiaries discovered live from the web, every claim quote-verified.</span></div>
     <div class="focus" id="focusBar" style="display:none">
       <span><i class="dot" style="background:var(--red)"></i>Red flag</span>
@@ -264,11 +267,15 @@ function applyFocus(final){
 }
 function kpis(){
   const ns=Object.values(S.nodes);
-  $("kFlag").textContent = ns.filter(n=>riskAt(n)!=="none").length;
-  $("kMap").textContent = ns.length;
+  const flagged=ns.filter(n=>riskAt(n)!=="none").length;
+  $("kFlag").textContent=flagged; $("kFlagL").textContent=S.cut?`flagged as of ${S.cut}`:"entities flagged";
+  const urls=ns.reduce((a,n)=>a+((n.stats||{}).urls||0),0);
+  $("kMap").textContent=ns.length; $("kMapL").textContent=urls?`entities from ${urls} sources`:"entities linked";
   const v=S.result&&S.result.verification;
-  $("kVer").textContent = v&&v.claims? `${Math.round(100*v.verified/v.claims)}%` : "–";
-  const m=S.meter; $("kEng").textContent = m? Object.keys(m.engines||{}).length : 0;
+  $("kVer").textContent=v&&v.claims?`${Math.round(100*v.verified/v.claims)}%`:"–";
+  $("kVerL").textContent=v&&v.claims?`${v.verified}/${v.claims} claims quote-checked`:"claims quote-checked";
+  if(S.asOf){ $("kTime").textContent=S.result?S.result.excluded_sources:"…"; $("kTimeL").textContent=`later sources excluded (≤ ${S.asOf})`; }
+  else { $("kTime").textContent="today"; $("kTimeL").textContent="pick a date to time-travel"; }
 }
 
 // ---------------- detail ----------------
@@ -297,7 +304,8 @@ function showNode(id){
       </div>`;}).join("") || `<div class="desc">No flags.</div>`}
     ${facts.length?`<details><summary>Verified facts (${facts.length})</summary><table>${facts.map(x=>`<tr><td>${esc(x[0])}</td><td>${esc(x[1])}</td></tr>`).join("")}</table></details>`:""}
     ${(n.sources||[]).length?`<details><summary>Sources read (${n.sources.length}, ranked by cross-engine agreement)</summary>${n.sources.map(s=>`<div class="src"><a href="${esc(s.snapshot||s.url)}" target="_blank">${esc((s.title||s.url).slice(0,60))}</a>${s.date?`<span>${esc(s.date)}</span>`:""}${s.engines.map(x=>`<span class="chip g">${esc(eng(x))}</span>`).join("")}</div>`).join("")}</details>`:""}
-    ${!readonly && r!=="none" && n.status!=="queued"?`<button class="ghost" onclick="monitor('${esc(n.name).replace(/'/g,"")}')">Monitor continuously with Telem</button>`:""}`;
+    ${!readonly && r!=="none" && n.status!=="queued"?`<button class="ghost" onclick="monitor('${esc(n.name).replace(/'/g,"")}')">Monitor continuously with Telem</button>`:""}
+    <div class="disclaimer">Screening signals for counsel review, not legal advice. Watchlists: OpenSanctions (OFAC, DoD 1260H, BIS, UN, UK, EU).</div>`;
 }
 function dedupe(evs){ const s=new Set(); return (evs||[]).filter(e=>{const k=e.url+"|"+e.quote; if(s.has(k)) return false; s.add(k); return true;}); }
 function evHTML(ev){
@@ -368,7 +376,7 @@ function coverage(){
 }
 function renderTelem(){
   const m=S.meter; if(!m){ return; }
-  $("tSess").textContent = m.session_id? "session "+m.session_id.slice(0,8) : "no session";
+  $("tSess").textContent = (Object.keys(m.engines||{}).length+" engines") + (m.session_id? " · session "+m.session_id.slice(0,8) : "");
   const routes=(m.routes||[]).slice(-3).reverse();
   const cov=coverage();
   const best=cov.by[0], pct=best&&cov.total? Math.round(100*best[1]/cov.total):null;
@@ -385,14 +393,13 @@ function renderTelem(){
 function log(msg){ const d=document.createElement("div"); d.innerHTML=msg; $("log").appendChild(d); $("log").scrollTop=1e9; }
 function reset(){
   if(es) es.close(); S=fresh(); cy.elements().remove(); $("log").innerHTML="";
-  $("empty").style.display="flex"; $("kpis").style.display="none"; $("focusBar").style.display="none"; $("asofBanner").style.display="none";
+  $("empty").style.display="flex"; $("kpis").style.display="none"; $("focusBar").style.display="none";
   $("detail").innerHTML='<div class="desc">Select an entity to see why it is flagged.</div>'; delete $("detail").dataset.node;
   $("slider").value=1000; $("cutLabel").textContent="today"; renderTimeline();
   $("tBody").innerHTML='Every search is routed by Telem to the engines best suited to the question.'; $("tSess").textContent="no session";
 }
 function handle(e){
   if(e.type==="start"){ S.runId=e.run_id; S.asOf=e.as_of||null;
-    if(S.asOf){ $("asofBanner").style.display="block"; $("asofBanner").textContent=`Time-travel: only evidence published on or before ${S.asOf}`; }
     log(`<b>start</b> ${esc(e.root)}${e.as_of?` as of ${esc(e.as_of)}`:""}`); applyCut(); }
   else if(e.type==="node") upsertNode(e.node);
   else if(e.type==="edge") addEdge(e.edge);
@@ -427,7 +434,6 @@ document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{
 
 async function loadRuns(){
   runsCache=await (await fetch("/api/runs")).json();
-  $("runs").innerHTML=runsCache.slice(0,8).map(r=>`<div onclick="openRun('${r.run_id}')">${esc(r.root)}<small>${r.as_of?`Time-travel to ${esc(r.as_of)}`:"Known today"} · ${r.nodes} entities · ${r.red} red</small></div>`).join("")||'<div class="desc">None yet.</div>';
   const root=S.result?S.result.root:(runsCache[0]&&runsCache[0].root);
   const same=runsCache.filter(r=>r.root===root);
   const today=same.find(r=>!r.as_of), past=same.find(r=>r.as_of);
@@ -440,9 +446,8 @@ async function loadRuns(){
 initCy();
 fetch("/api/health").then(r=>r.json()).then(h=>{
   readonly=!!h.readonly; const ok=String(h.telem).startsWith("ok");
-  $("telemPill").textContent= readonly?"Public demo · replay only": ok?"Telem connected":"Telem offline";
-  $("telemPill").className="pill "+(ok?"ok":"");
-  if(readonly){ $("go").disabled=true; $("go").textContent="Live runs disabled in public demo"; }
+  if(readonly){ $("go").disabled=true; $("go").textContent="Replay only"; $("go").title="Public demo: live runs are disabled"; }
+  else if(!ok){ $("go").title="Telem offline: runs fall back to Tavily"; }
   loadRuns().then(()=>{
     const q=new URLSearchParams(location.search);
     if(q.get("replay")) stream(`/api/replay/${q.get("replay")}?speed=${q.get("speed")||8}`);
