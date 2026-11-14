@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LookThrough — Hindsight test</title>
+<style>
+:root{--bg:#0a0d14;--panel:#10151f;--line:#1c2433;--text:#e6e9ef;--muted:#93a0b4;--dim:#5f6b7f;--accent:#2dd4bf;--red:#f05252;--amber:#f5a524;--green:#4ade80}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font:16px/1.5 -apple-system,BlinkMacSystemFont,"Inter","Segoe UI",sans-serif}
+.wrap{max-width:1320px;margin:0 auto;padding:30px 32px}
+.top{display:flex;align-items:baseline;gap:16px}
+.logo{font-weight:750;font-size:22px}.logo span{color:var(--accent)}
+.nav{margin-left:auto;display:flex;gap:16px}.nav a{color:var(--muted);font-size:14px;text-decoration:none}
+h1{font-size:32px;line-height:1.2;margin:20px 0 6px;letter-spacing:-.3px}
+h1 em{font-style:normal;color:var(--accent)}
+.q{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:16px 0 18px;font-size:17px}
+.q b{color:var(--accent)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.col{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+.col.bad{border-top:3px solid var(--red)}.col.good{border-top:3px solid var(--accent)}
+.col h2{margin:0 0 2px;font-size:19px}
+.col .sub{color:var(--dim);font-size:13px;margin-bottom:12px}
+.item{padding:10px 0;border-top:1px solid var(--line);font-size:14.5px;color:var(--muted)}
+.item b{color:var(--text)}
+.leak{background:#3f0d0d;color:#fca5a5;padding:1px 5px;border-radius:4px;font-weight:600}
+.ok{color:var(--green);font-weight:700}
+.x{color:var(--red);font-weight:700}
+.score{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px}
+.s{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.s h4{margin:0 0 8px;font-size:12px;text-transform:uppercase;letter-spacing:.7px;color:var(--dim)}
+.s div{display:flex;justify-content:space-between;font-size:14px;margin-top:4px;color:var(--muted)}
+.s div b{color:var(--text)}
+.bottom{margin-top:18px;font-size:18px;text-align:center;color:var(--muted)}
+.bottom b{color:var(--text)}
+.foot{color:var(--dim);font-size:12px;margin-top:14px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><div class="logo">Look<span>Through</span></div>
+    <div class="nav"><a href="/">Demo</a><a href="/pitch">Who it's for</a></div></div>
+  <h1>Smart AI search knows the ending. <em>That's the problem.</em></h1>
+  <div class="q">Same question, same model (Claude Code): <b>"As of 2025-12-29</b>, what was publicly known about US scrutiny of investment in Manus AI, and was investor Tencent on any US government list?"</div>
+
+  <div class="cols">
+    <div class="col bad">
+      <h2>Plain AI web search</h2>
+      <div class="sub">Claude Code + WebSearch / WebFetch</div>
+      <div class="item"><span class="ok">✓</span> Found the May 2025 Treasury review of Benchmark's $75M round (Semafor).</div>
+      <div class="item"><span class="ok">✓</span> Found Tencent's 1260H listing (Jan 2025).</div>
+      <div class="item"><span class="x">✗</span> <b>Answered 2025 using 2026:</b> "The next update wasn't until <span class="leak">February 2026</span>… The <span class="leak">June 2026</span> update also kept Tencent on the list."</div>
+      <div class="item"><span class="x">✗</span> <b>"Verbatim" quote never checked</b> against the page; the fetch tool returns a model summary.</div>
+      <div class="item"><span class="x">✗</span> <b>Checked one list:</b> "I only checked the 1260H list; I didn't check… other US lists."</div>
+    </div>
+    <div class="col good">
+      <h2>LookThrough time-travel search</h2>
+      <div class="sub">Claude Code + LookThrough MCP (Telem-routed)</div>
+      <div class="item"><span class="ok">✓</span> Found the May 2025 Treasury review (Semafor, TechCrunch, Proskauer), all dated before the cutoff.</div>
+      <div class="item"><span class="ok">✓</span> <b>Nothing after 2025-12-29 was retrievable.</b> Telem <code>published_before</code> on every engine; undated pages only via archive snapshots captured before the date.</div>
+      <div class="item"><span class="ok">✓</span> <b>Quote machine-verified</b>: exact match on the Internet Archive capture from 2025-09-09, with page hash.</div>
+      <div class="item"><span class="ok">✓</span> <b>Screened every list</b> (OFAC, 1260H, BIS, UN, UK, EU) with listing dates: 1260H since 2025-01-07, <i>procurement ban, not an investment ban</i>; no binding listing.</div>
+      <div class="item"><span class="ok">✓</span> Didn't assert what it couldn't source inside the window.</div>
+    </div>
+  </div>
+
+  <div class="score">
+    <div class="s"><h4>Hindsight leaks</h4><div>Plain <b style="color:var(--red)">2</b></div><div>LookThrough <b style="color:var(--green)">0</b></div></div>
+    <div class="s"><h4>Quotes machine-verified</h4><div>Plain <b style="color:var(--red)">0</b></div><div>LookThrough <b style="color:var(--green)">yes, on archived page</b></div></div>
+    <div class="s"><h4>Watchlists checked</h4><div>Plain <b style="color:var(--red)">1</b></div><div>LookThrough <b style="color:var(--green)">all, with dates</b></div></div>
+    <div class="s"><h4>Audit trail</h4><div>Plain <b style="color:var(--red)">none</b></div><div>LookThrough <b style="color:var(--green)">hashes + Telem session</b></div></div>
+  </div>
+
+  <div class="bottom">In a lookback, <b>being right with hindsight is being wrong.</b> LookThrough produces an answer you can defend as a record of what was knowable.</div>
+  <div class="foot">Real outputs, run 2026-11-14, full transcripts in docs/claude-code-demo.md. Plain search also found Tencent as a Manus backer; LookThrough's full look-through agent found it too, but its quick search tool did not. Recall is ongoing work.</div>
+</div>
+</body>
+</html>

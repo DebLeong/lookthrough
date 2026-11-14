@@ -17,7 +17,8 @@ telem-ai, mcp, claude-code, tavily, exa, perplexity, linkup, you.com, claude, py
 1. media/3-asof-run.png: time-travel search to 2025-12-29
 2. media/1-live-graph.png: the same investigation, known today
 3. media/2-decision-date.png: timeline slider at the decision date
-4. media/4-who-its-for.png: who it's for and market size
+4. media/5-hindsight-test.png: plain AI search vs LookThrough, same question
+5. media/4-who-its-for.png: who it's for and market size
 
 ## Video demo link
 (YouTube unlisted URL; see PRESENTATION.md)
@@ -96,13 +97,11 @@ LookThrough's primitives also ship as an **MCP server**, so Claude Code, Cursor 
 - `verify_quote(url, quote, as_of)`
 - `screen_entity(name, as_of)`
 
-We tested it with Claude Code on Manus as of 2025-12-29:
-- It found the May 2025 reports of a Treasury review.
-- It verified the key quote against an **Internet Archive capture from before the cutoff**.
-- It labelled Tencent's 1260H listing correctly as a procurement ban, not an investment ban.
-- It **declined to assert** a fact it couldn't source within the time window.
+**The hindsight test (real outputs, same model, same question):** *"As of 2025-12-29, what was known about US scrutiny of Manus, and was investor Tencent on any US list?"*
+- **Plain Claude Code web search** found the right facts, but **answered 2025 using 2026**: "The next update wasn't until February 2026… the June 2026 update also kept Tencent on the list." Its "verbatim" quote was never checked against the page, and it checked only one watchlist.
+- **Claude Code + LookThrough:** nothing after the cutoff was retrievable; the key quote was **machine-verified on an Internet Archive capture from before the cutoff**; all watchlists were screened with listing dates; and it declined to assert anything it couldn't source inside the window.
 
-Today's coding agents can't guarantee they aren't reading the future, and they can't verify their own citations. These three tools add both, all routed through Telem.
+Smart AI search knows the ending, and that's the problem. In a lookback, being right with hindsight is being wrong.
 
 ## How we built it
 Python and FastAPI stream agent events over Server-Sent Events to a Cytoscape.js UI. The pipeline is:

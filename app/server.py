@@ -30,6 +30,11 @@ def index():
     return FileResponse(ROOT / "web" / "index.html")
 
 
+@app.get("/compare")
+def compare():
+    return FileResponse(ROOT / "web" / "compare.html")
+
+
 @app.get("/pitch")
 def pitch():
     return FileResponse(ROOT / "web" / "pitch.html")

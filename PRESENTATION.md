@@ -33,7 +33,10 @@
 
 *Drag the timeline slider slowly to the right* to show later actions appearing: MOFCOM probe, deal blocked, unwind.
 
-## 1:50–2:30 · Powered by Telem (point at the bottom-right panel)
+## 1:50–2:05 · The hindsight test (driver: click **"Hindsight test →"**)
+> "Can't ChatGPT or Claude just do this? We asked plain Claude Code the same question. It found the right facts, then **answered 2025 using 2026 news**. Smart AI search knows the ending. In a lookback, being right with hindsight is being wrong."
+
+## 2:05–2:30 · Powered by Telem (point at the bottom-right panel)
 > "Three search primitives make this work: time-bounded retrieval, verified retrieval and connected retrieval. And none of it works on a single search engine. Telem routes every question to the engines suited to it: company questions to Exa, You.com and Linkup, filings questions to Perplexity and Tavily.
 > **In the time-travel run, the best single engine found only 38% of the verified evidence. Telem's routing found the rest.**
 > Telem's `published_before` filter is what makes time travel possible. WeChat surfaced Chinese-language reporting on who co-led the latest round. Every look-through is one Telem session, which is the audit trail, and one click turns a flag into an hourly Telem Monitor."
