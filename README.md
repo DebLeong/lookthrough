@@ -1,24 +1,31 @@
 # LookThrough
 
-**Time-travel search for AI agents.** AI search answers *what's true now*; LookThrough answers *what was knowable then, and how do we know*: retrieval that is **time-bounded** (no future leakage), **verified** (every claim quote-checked against its source) and **connected** (it builds a knowledge graph across engines, languages and archives). We prove it on cross-border investment diligence. LookThrough rebuilds a company's ownership graph and risk picture *as it was knowable on any past date*, using only evidence published before that date, and lines it up against what investors and acquirers actually did.
+**When a deal blows up, everyone asks one question: "What did you know, and when?"** The board, investors, regulators, lawyers and insurers all ask it. Today, answering takes weeks of analysts and lawyers, and AI search makes it worse, because it answers with hindsight.
 
-Built in one day at **SearchHack** (Telem AI) on Telem's multi-engine search router.
+**LookThrough rebuilds what was publicly knowable about any company on any past date, in about 90 seconds:**
+- **Time-bounded:** only sources public on that date.
+- **Verified:** every claim carries a verbatim quote checked against its source.
+- **Connected:** investors, owners and subsidiaries are mapped live.
 
-> Screening signals for counsel review — not legal advice.
+Built in one day at **SearchHack** on Telem's multi-engine search router.
 
-![LookThrough](media/1-live-graph.png)
+> Screening signals for review, not legal advice.
 
-## Why
+![LookThrough](media/0-story-hook.png)
 
-US investors now carry legal duties three layers down:
+## Who it's for
+Anyone who signs off on risk:
+- **investors** (15,352 US VC deals in 2025), plus PE and M&A;
+- **banks and fintechs** ($206B a year on financial-crime compliance, LexisNexis 2023);
+- **insurers, auditors and law firms**, whose claims, audits and lawsuits turn on "what was known at the time";
+- **AI agents** that backtest or recommend decisions. Research shows date-filtered retrieval alone still leaks the future.
 
-- **US Outbound Investment Rule** (31 CFR 850, in force Jan 2025; COINS Act codified it Dec 2025): VC/PE investments in China AI, semiconductors and quantum require a *"reasonable and diligent inquiry"*. Treasury never said what that inquiry looks like, and it is judged on what you knew, or should have known, **at the time of the deal**.
-- **OFAC 50% rule**: any entity 50%+ owned, in aggregate, by blocked persons is itself blocked.
-- **LP exclusion policies** (1260H "Chinese military companies", surveillance, weapons) reach through funds into portfolio companies.
-
-Incumbents (Orbis, World-Check, Kharon, Sayari) answer *"what is true today"* for entities already in their databases. A deal team needs *"what could we have known on the decision date, and what did we do about it?"*, often for a seed-stage company that isn't in any database.
+**First wedge:** investor due diligence. **Platform:** an API and MCP tool any agent can call.
 
 ## What it does
+
+*Built-in screening goes beyond web evidence: sanctions and government lists (OFAC, DoD 1260H, BIS, UN, UK, EU) with listing dates, the OFAC 50% ownership rule, and US outbound-investment rule tests for cross-border deals.*
+
 
 1. **Look-through graph.** From a target, it walks up through owners and investors and down through subsidiaries and portfolio companies, discovering edges live from the web.
 2. **Evidence-grounded claims.** The LLM only *extracts*; every fact must carry a verbatim quote, and the quote is checked against the fetched page. Unverified claims are dropped (typically 96–100% survive).
