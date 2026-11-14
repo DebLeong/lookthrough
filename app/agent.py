@@ -200,7 +200,8 @@ class LookThrough:
     def _retrieve(self, node: Node) -> tuple[list[Hit], dict[str, list[Hit]]]:
         name = node.name
         if node.kind == "fund":
-            queries = [f"{name} portfolio companies investments", f"{name} venture capital firm limited partners"]
+            queries = [f"{name} portfolio companies investments", f"{name} invested in startups list portfolio",
+                       f"{name} led funding round 2025"]
         elif node.kind == "person":
             queries = [f"{name} biography companies roles"]
         else:
@@ -461,7 +462,8 @@ Return JSON:
                 else:
                     self._add_edge(node, child, edge_type, pct, [ev], it.get("role", ""))
                 prio = (pct or 0) / 100 + (0.6 if (it.get("country") or "").lower() in CONCERN else 0)
-                prio += 0.5 if edge_type in ("owns", "subsidiary", "portfolio", "invests") else 0
+                prio += 0.5 if edge_type in ("owns", "subsidiary", "invests") else 0
+                prio += 1.0 if edge_type == "portfolio" else 0
                 children.append((child, prio))
 
         rel(raw.get("owners"), "owns", "in", "company")
@@ -567,8 +569,8 @@ Return JSON:
             node, _ = frontier.pop(0)
             if node.status != "queued" or node.depth > self.max_depth:
                 continue
-            if node.kind == "person" and node.depth > 1:
-                continue
+            if node.kind == "person":
+                continue   # people are screened by name (watchlists/PEP), not researched: follow the money
             if self.meter.exhausted:
                 self._log("Budget reached — stopping expansion (remaining nodes screened by name only)")
                 break

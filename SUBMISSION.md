@@ -40,6 +40,14 @@ I spent years in hedge-fund compliance, where getting this wrong is a legal liab
 **The case: Manus AI.** It was founded in China, moved to Singapore in 2025, and Meta announced an acquisition in December 2025. Beijing blocked the deal four months later. Meta had every resource to check. The question isn't *could they know?* It's what was knowable, when, and who went ahead anyway.
 
 ## Who it's for
+**The big picture.** Any decision that must hold up later, and any AI agent that makes one, needs to know what was knowable at the time, and prove it:
+- **Financial-crime compliance:** $206B a year globally, 57% of it labor (LexisNexis). A KYC refresh is literally "what changed since the last review."
+- **Investment and M&A diligence:** 15,352 US VC deals in 2025 alone, plus PE and corporate M&A (Meta–Manus).
+- **AI agents that backtest or forecast:** research shows date-filtered retrieval alone still leaks the future (*Pitfalls in Evaluating Language Model Forecasters*; Li et al. 2026).
+- **Legal and insurance:** "what did they know, and when?"
+
+LookThrough is horizontal search infrastructure (API + MCP). **The wedge** is cross-border deal diligence, where a new US law forces a documented inquiry:
+
 - **Daily user: the deal team at a VC or PE fund.** The term sheet is signed with an AI startup that has any Asia nexus (founders, investors, entities, engineers) and the investment committee meets Thursday. They type the name and get the ownership graph, a cited evidence record, and the questions to put to the founder.
 - **Budget holder: the General Counsel or CCO.** They own the legal risk (US outbound rule, OFAC 50% rule, LP exclusion policies) and need a time-stamped "reasonable and diligent inquiry" record for every deal, plus monitoring after closing.
 - **Expansion:** secondaries buyers and fund-of-funds (hundreds of inherited portfolio companies per deal), corporate M&A teams (Meta–Manus), banks lending to funds, and law firms.

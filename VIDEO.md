@@ -13,7 +13,7 @@
 ## Script (~2:00; say it, don't read it word for word)
 
 **[Tab 1, slide 1] 0:00**
-"LookThrough is time-travel search, built on Telem. AI search tells you what's true *now*. Deals, audits and lawsuits ask what was knowable *then*, and how do we know."
+"LookThrough is time-travel search, built on Telem. AI search knows what's true *now*, but every deal, audit, insurance claim, lawsuit and AI backtest is judged on what was knowable *then*. LookThrough answers that, with proof."
 
 **[→ slide 2] 0:12**
 "Real case. On December 30, 2025, Meta announced it would buy Manus, an AI startup founded in China that had moved to Singapore. Four months later, Beijing blocked the deal."
@@ -33,6 +33,6 @@
 "Telem makes it work. It routes each question to the right engines: the best single engine found only 38% of our evidence. Telem's published-before filter makes time travel possible, WeChat adds Chinese-language sources, and every investigation is one auditable Telem session. It also ships as an MCP tool for any agent."
 
 **[→ slide 8, then slide 9] 1:45**
-"Who pays? US funds backing cross-border AI deals: 15,000 venture deals a year, 65% into AI, and a legal duty to document diligence. LookThrough: what was knowable, when, and how we know."
+"The market is every decision that has to hold up later: $206 billion a year in financial-crime compliance, every investment and M&A deal, every AI agent that backtests, plus legal and insurance. We start with cross-border deal diligence, where a new law forces a documented inquiry, and we ship as an API and MCP tool for any agent. LookThrough: what was knowable, when, and how we know."
 
 **[End ~2:00]**
