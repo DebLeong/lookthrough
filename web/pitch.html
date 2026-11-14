@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LookThrough — Who it's for</title>
+<style>
+:root{--bg:#0a0d14;--panel:#10151f;--line:#1c2433;--text:#e6e9ef;--muted:#93a0b4;--dim:#5f6b7f;--accent:#2dd4bf;--accent2:#60a5fa;--amber:#f5a524}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font:16px/1.5 -apple-system,BlinkMacSystemFont,"Inter","Segoe UI",sans-serif}
+.wrap{max-width:1280px;margin:0 auto;padding:36px 32px}
+.top{display:flex;align-items:baseline;gap:16px}
+.logo{font-weight:750;font-size:22px}.logo span{color:var(--accent)}
+a.back{margin-left:auto;color:var(--muted);font-size:14px;text-decoration:none}
+h1{font-size:34px;line-height:1.2;margin:22px 0 6px;font-weight:700;letter-spacing:-.3px}
+h1 em{font-style:normal;color:var(--accent)}
+.lead{color:var(--muted);font-size:18px;margin:0 0 26px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
+.card h3{margin:0 0 4px;font-size:13px;text-transform:uppercase;letter-spacing:.8px;color:var(--dim);font-weight:600}
+.card .who{font-size:20px;font-weight:650;margin:2px 0 8px}
+.card p{margin:0;color:var(--muted);font-size:15px}
+.card .moment{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);font-size:14px;color:var(--text)}
+.card .moment b{color:var(--accent)}
+.row2{display:grid;grid-template-columns:1.25fr 1fr;gap:16px;margin-top:16px}
+.funnel div{display:flex;align-items:center;gap:14px;margin-top:10px}
+.funnel .bar{height:38px;border-radius:8px;background:linear-gradient(90deg,#134e4a,#2dd4bf);display:flex;align-items:center;padding:0 14px;font-weight:700;color:#04201c;white-space:nowrap}
+.funnel .lbl{color:var(--muted);font-size:14px}
+.funnel .lbl b{color:var(--text)}
+ul{margin:8px 0 0;padding-left:18px;color:var(--muted)}li{margin:6px 0}li b{color:var(--text)}
+.src{color:var(--dim);font-size:12px;margin-top:18px}
+.src a{color:var(--dim)}
+.tag{display:inline-block;font-size:12px;color:var(--amber);border:1px solid #78350f;border-radius:6px;padding:1px 7px;margin-left:6px;vertical-align:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><div class="logo">Look<span>Through</span></div><a class="back" href="/">← back to the demo</a></div>
+  <h1>For the person who has to sign the investment memo<br>and be able to defend it <em>years later</em>.</h1>
+  <p class="lead">Every cross-border AI deal now needs a documented answer to one question: <b>what could we have known, and when?</b></p>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Daily user</h3>
+      <div class="who">Deal team at a VC / PE fund</div>
+      <p>Associate or VP diligencing a startup with any Asia nexus: founders, investors, entities or engineers.</p>
+      <div class="moment"><b>When:</b> term sheet signed, investment committee on Thursday. Type the name, get the ownership graph, the evidence record and the questions to ask the founder.</div>
+    </div>
+    <div class="card">
+      <h3>Budget holder</h3>
+      <div class="who">General Counsel / CCO</div>
+      <p>Owns the legal risk: US outbound-investment rule, OFAC 50% rule, LP exclusion policies.</p>
+      <div class="moment"><b>Gets:</b> a time-stamped, cited "reasonable and diligent inquiry" record per deal, plus hourly monitoring after closing.</div>
+    </div>
+    <div class="card">
+      <h3>Expansion</h3>
+      <div class="who">Anyone inheriting risk they didn't pick</div>
+      <p>Secondaries buyers and fund-of-funds (hundreds of portfolio companies per deal), corporate M&amp;A teams (Meta–Manus), banks lending to funds, law firms.</p>
+      <div class="moment"><b>Same engine:</b> one graph, as of any date, for any counterparty.</div>
+    </div>
+  </div>
+
+  <div class="row2">
+    <div class="card funnel">
+      <h3>Market: bottom-up beachhead</h3>
+      <div><span class="bar" style="width:62%">15,352 deals / yr</span><span class="lbl">US VC deals in 2025, <b>$320B</b></span></div>
+      <div><span class="bar" style="width:50%">65% of $ → AI</span><span class="lbl">AI is a covered sector under the outbound rule</span></div>
+      <div><span class="bar" style="width:38%">2,984 VC firms</span><span class="lbl">US venture firms, our first buyers</span></div>
+      <div><span class="bar" style="width:28%">~$75M ARR</span><span class="lbl">2,984 × $25K/yr fund subscription <span class="tag">pricing hypothesis</span></span></div>
+      <p style="margin-top:14px;color:var(--muted);font-size:14px">Then PE, secondaries, fund-of-funds, corporate M&amp;A and banks. The adjacent risk-intelligence market already supports <b style="color:var(--text)">Quantexa ($2.6B valuation)</b> and <b style="color:var(--text)">Sayari ($235M Series D)</b>, both built on "what is true today."</p>
+    </div>
+    <div class="card">
+      <h3>Why now</h3>
+      <ul>
+        <li><b>Jan 2025:</b> US Outbound Investment Rule in force. "Knowledge" standard, criminal penalties.</li>
+        <li><b>Dec 2025:</b> COINS Act codifies and expands it. <b>Final rule due Mar 2027</b>; signed-but-unclosed deals aren't grandfathered.</li>
+        <li><b>2026:</b> Meta–Manus blocked by China. Cross-border risk cuts both ways.</li>
+        <li><b>AI search finally makes it affordable:</b> about $0.25 of search per investigation via Telem.</li>
+      </ul>
+      <h3 style="margin-top:18px">Why us</h3>
+      <ul><li>Founder spent years doing this by hand in hedge-fund compliance.</li><li>Only time-travel search: rebuilds what was knowable on any past date.</li></ul>
+    </div>
+  </div>
+  <div class="src">Sources: <a href="https://nvca.org/press_releases/nvca-releases-2026-yearbook-charts-a-venture-industry-in-transition/">NVCA 2026 Yearbook</a> (firms, deals, $) · <a href="https://www.citybiz.co/article/831842/65-of-320b-us-venture-deals-in-2025-went-to-ai-startups/">AI share of 2025 VC $</a> · <a href="https://techcrunch.com/2025/03/04/quantexa-nabs-175m-at-a-2-6b-valuation-to-double-down-on-data-analytics-for-ai/">Quantexa</a> · <a href="https://sayari.com/resources/newsroom/pr-sayari-raises-235m-in-series-d-funding/">Sayari</a>. Pricing is a hypothesis, not validated.</div>
+</div>
+</body>
+</html>

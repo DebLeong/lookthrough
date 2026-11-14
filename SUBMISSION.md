@@ -17,6 +17,7 @@ telem-ai, tavily, exa, perplexity, linkup, you.com, claude, python, fastapi, jav
 1. media/3-asof-run.png: time-travel search to 2025-12-29
 2. media/1-live-graph.png: the same investigation, known today
 3. media/2-decision-date.png: timeline slider at the decision date
+4. media/4-who-its-for.png: who it's for and market size
 
 ## Video demo link
 (YouTube unlisted URL; see PRESENTATION.md)
@@ -36,6 +37,20 @@ Today's AI search can't answer them:
 I spent years in hedge-fund compliance, where getting this wrong is a legal liability. Since 2025, the US Outbound Investment Rule requires a *"reasonable and diligent inquiry"* before backing Chinese AI companies, judged on what you knew **at the time of the deal**. So we built search for that standard, and tested it on a real case.
 
 **The case: Manus AI.** It was founded in China, moved to Singapore in 2025, and Meta announced an acquisition in December 2025. Beijing blocked the deal four months later. Meta had every resource to check. The question isn't *could they know?* It's what was knowable, when, and who went ahead anyway.
+
+## Who it's for
+- **Daily user: the deal team at a VC or PE fund.** The term sheet is signed with an AI startup that has any Asia nexus (founders, investors, entities, engineers) and the investment committee meets Thursday. They type the name and get the ownership graph, a cited evidence record, and the questions to put to the founder.
+- **Budget holder: the General Counsel or CCO.** They own the legal risk (US outbound rule, OFAC 50% rule, LP exclusion policies) and need a time-stamped "reasonable and diligent inquiry" record for every deal, plus monitoring after closing.
+- **Expansion:** secondaries buyers and fund-of-funds (hundreds of inherited portfolio companies per deal), corporate M&A teams (Meta–Manus), banks lending to funds, and law firms.
+
+**Market (bottom-up).**
+- In 2025 there were **15,352 US VC deals worth $320B**, and **65% of the dollars went to AI**, the sector the rule covers.
+- There are **2,984 US venture firms**. At a $25K/yr subscription (a pricing hypothesis), that's a **~$75M ARR beachhead**, before PE, secondaries, corporate M&A and banks.
+- The adjacent "what's true today" risk-intelligence market already supports Quantexa ($2.6B valuation) and Sayari ($235M Series D).
+
+Sources: NVCA 2026 Yearbook; citybiz/NVCA on the AI share.
+
+**Why now.** The COINS Act codified and expanded the rule in December 2025. Its final rule is due in March 2027, and signed-but-unclosed deals aren't grandfathered.
 
 ## What it does: three search primitives
 **1. Time-bounded retrieval (no future leakage).**

@@ -9,12 +9,11 @@
 
 ---
 
-## 0:00–0:25 · Hook: the search problem (speaker, no clicks)
-> "AI search is built to answer *what's true now?* Every serious decision asks something harder: **what was knowable at the time, and how do we know?**
-> Today's AI search can't answer that. It leaks the future, because a page fetched today is today's page. It hallucinates connections. And the context is scattered across engines, languages and archives.
-> We built **time-travel search**: time-bounded, quote-verified, and it builds a knowledge graph. We proved it on the least forgiving customer there is: cross-border investment diligence, where a hallucination or a leaked fact is a legal liability."
-
-*(Optional line if time allows: "In December 2025 Meta announced it was buying Manus, an AI startup founded in China. Beijing blocked it four months later. Meta could have known. The question is what was knowable, when.")*
+## 0:00–0:25 · Hook: a person, a moment, a problem (speaker, no clicks)
+> "Meet the deal team at a US venture fund. Term sheet signed with a hot AI startup: Singapore address, founders from Beijing, Chinese investors on the cap table. Investment committee is Thursday.
+> Since 2025, US law says they must make a **'reasonable and diligent inquiry'** before investing, and it's judged on what they could have known **on the day they signed**. Get it wrong and it's criminal penalties.
+> Today that inquiry is days of analysts and outside counsel, stitched together from scattered searches. Plain AI search makes it worse: it leaks the future and invents connections.
+> We built **time-travel search**: time-bounded, quote-verified, and it builds the ownership graph. Here's the real case: Meta and Manus."
 
 ## 0:25–1:05 · The look-through (driver: "Known today" view, Manus graph)
 > "This is LookThrough on Manus. Starting from one name, it discovered who really stands behind the company: the Singapore entity, the Beijing operating company, and investors Tencent and IDG. Every link was found live on the web."
@@ -39,9 +38,9 @@
 > **In the time-travel run, the best single engine found only 38% of the verified evidence. Telem's routing found the rest.**
 > Telem's `published_before` filter is what makes time travel possible. WeChat surfaced Chinese-language reporting on who co-led the latest round. Every look-through is one Telem session, which is the audit trail, and one click turns a flag into an hourly Telem Monitor."
 
-## 2:30–3:00 · Why it matters (speaker)
-> "Time-travel search generalizes: litigation, where the question is what they knew and when; investigative journalism; and leak-free backtests for forecasting agents, where you give an agent only what was knowable at that moment.
-> We're starting with a customer who has a legal deadline: VC and PE funds doing cross-border deals, plus secondaries buyers. Treasury's expanded rule lands by March 2027.
+## 2:30–3:00 · Who pays and how big (driver: click **"Who it's for →"** at top right)
+> "Daily user: the deal team. Budget holder: the General Counsel, who needs a defensible record for every deal.
+> Last year: 15,352 US venture deals, $320 billion, 65% of it into AI, the sector this rule covers. There are about 3,000 US venture firms. At $25K a year, that's a $75M beachhead before PE, secondaries, corporate M&A and banks. Treasury's expanded rule lands by March 2027.
 > I spent years doing this by hand in hedge-fund compliance. Scan the QR code and try time travel yourself."
 
 ---
@@ -54,6 +53,7 @@
 | Why not Orbis, World-Check or Sayari? | They answer "what's true now" for known entities. We found no product that rebuilds a multi-regime risk picture as of a past date. Sayari has time-stamped records, and consultancies (FTI) do manual lookbacks. We'd partner for data. |
 | Ownership percentages aren't public. | Correct. We say "aggregate test undetermined" and name the shareholders to ask about. That *is* the diligent inquiry. |
 | Is 1260H a sanction? | No: it's a Pentagon procurement ban, not an investment ban. Binding prohibitions (OFAC SDN, NS-CMIC) are tiered red. |
+| Isn't $25K/yr a guess? | Yes, it's a pricing hypothesis. The anchor is that today's alternative is analyst days and outside-counsel hours per deal. We'd validate with design partners. |
 | Cost per look-through? | About $0.25–0.35 in search credits for a 5-entity run, with cached replays free. Compare that with analyst hours. |
 | Why Telem? | Routing across about 11 engines plus WeChat and LinkedIn, date filtering, fetch fallback, sessions and monitors behind one API. The best single engine found only 38% of our historical evidence. |
 

@@ -30,6 +30,11 @@ def index():
     return FileResponse(ROOT / "web" / "index.html")
 
 
+@app.get("/pitch")
+def pitch():
+    return FileResponse(ROOT / "web" / "pitch.html")
+
+
 @app.get("/api/health")
 def health():
     status = {"telem": "unknown", "llm": "claude-cli", "readonly": READONLY}
