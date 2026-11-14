@@ -1,10 +1,10 @@
 # Devpost submission: copy and paste
 
 ## Project name (60 max)
-LookThrough: Time-Travel Search for AI Agents
+LookThrough: A Dashcam for Due Diligence
 
 ## Elevator pitch (200 max)
-AI search answers what's true now. LookThrough answers what was knowable then: time-bounded, quote-verified search building a knowledge graph across engines, languages and archives. Built on Telem.
+When a deal blows up, everyone asks: what did you know, and when? LookThrough rebuilds what was public on any date, every claim quote-verified, in 90 seconds. Built on Telem.
 
 ## Built with (tags)
 telem-ai, mcp, claude-code, tavily, exa, perplexity, linkup, you.com, claude, python, fastapi, javascript, cytoscape.js, server-sent-events, opensanctions, internet-archive, wechat, linkedin, rapidfuzz, cloudflare
@@ -14,6 +14,7 @@ telem-ai, mcp, claude-code, tavily, exa, perplexity, linkup, you.com, claude, py
 - Code: https://github.com/DebLeong/lookthrough
 
 ## Image gallery (upload in this order)
+0. media/0-story-hook.png: "What did you know, and when?"
 1. media/6-story-case.png: what was public vs. what investors did (Builder.ai)
 2. media/5-hindsight-test.png: plain AI search vs LookThrough, same question
 3. media/1-live-graph.png: the investigation graph
@@ -28,6 +29,8 @@ telem-ai, mcp, claude-code, tavily, exa, perplexity, linkup, you.com, claude, py
 ## About the project (paste everything below)
 
 ## Inspiration
+**When a deal blows up, everyone asks one question: "What did you know, and when?"** The board, the investors, the regulator, the lawyers and the insurer all ask it. Today, answering takes weeks of analysts and lawyers, and AI makes it worse, because it answers with hindsight. LookThrough is a **dashcam for due diligence**: a time-stamped, cited record of what was knowable when you made the call.
+
 AI search is built to answer one question: **what's true now?** Every serious decision asks two harder ones: **what was knowable at the time, and how do we know?**
 
 Today's AI search can't answer them:
