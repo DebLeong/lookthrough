@@ -37,5 +37,8 @@
 **Slide 7 · 1:42**
 "It's built on Telem. No single search engine sees it all: the best one alone found only 64% of our evidence. Telem sends each question to the right engines, reaches WeChat and LinkedIn, filters by publish date, and logs every search, so the whole investigation is traceable."
 
-**Slide 8 · 1:52**
-"Name a company, pick a date, and see what you could have known. LookThrough, built on Telem."
+**Slide 8 (recap) · 1:50**
+"So: who? Anyone who signs off on risk. Why? Because when it blows up, everyone asks what you knew, and when. How? Type a company, pick a date, get the proof in 90 seconds."
+
+**Slide 9 · 1:58**
+"Name a company and see what you could have known. LookThrough, built on Telem."

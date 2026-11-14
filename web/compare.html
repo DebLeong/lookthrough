@@ -37,45 +37,53 @@ h1 em{font-style:normal;color:var(--accent)}
 nav.chap{display:flex;gap:2px;margin-left:auto}
 nav.chap a{color:#93a0b4;font-size:14px;font-weight:600;padding:7px 12px;border-radius:8px;text-decoration:none}
 nav.chap a.on{color:#e6e9ef;background:#10151f}nav.chap a:hover{color:#e6e9ef}
+.ask{font-size:2.1vw;line-height:1.3;color:var(--muted);margin:2.5vh 0 3vh}
+.ask b{color:var(--text);font-size:2.6vw}
+.hl{color:var(--accent)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:2.4vw}
+.side{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:2.4vh 2vw}
+.side.bad{border-top:6px solid var(--red)}.side.good{border-top:6px solid var(--accent)}
+.lab{font-size:1.4vw;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);font-weight:700}
+.verdict{font-size:3vw;font-weight:800;margin:.8vh 0 1.6vh;line-height:1.1}
+.leakbig{color:var(--red)}.okbig{color:var(--accent)}
+.side ul{margin:0;padding-left:1.4vw;font-size:1.55vw;line-height:1.45;color:var(--text)}
+.side li{margin:.9vh 0}
+.side mark{background:#4a1010;color:#fecaca;padding:0 .3vw;border-radius:5px}
+.tag{margin-top:1.8vh;font-size:1.8vw;font-weight:800}
+.side.bad .tag{color:var(--red)}.side.good .tag{color:var(--accent)}
+.punch{margin-top:3.2vh;font-size:2.1vw;text-align:center;color:var(--muted)}.punch b{color:var(--text)}
+.foot2{margin-top:2vh;text-align:center;color:var(--dim);font-size:.95vw}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="top"><div class="logo">Look<span>Through</span></div>
     <nav class="chap"><a href="/story">Story</a><a href="/">Investigation</a><a class="on" href="/compare">Hindsight test</a><a href="/pitch">Who it's for</a></nav></div>
-  <h1>Smart AI search knows the ending. <em>That's the problem.</em></h1>
-  <div class="q">Same question, same model (Claude Code): <b>"As of 2023-05-01</b>, what was publicly known about concerns that Builder.ai (formerly Engineer.ai) overstated its use of AI?" <span style="color:var(--dim)">Builder.ai was backed by Microsoft, SoftBank's DeepCore and Insight Partners, and collapsed into insolvency in 2025.</span></div>
-
-  <div class="cols">
-    <div class="col bad">
-      <h2>Plain AI web search</h2>
-      <div class="sub">Claude Code + WebSearch / WebFetch</div>
-      <div class="item"><span class="ok">✓</span> Found the Aug 2019 WSJ report and the 2019 insider lawsuit.</div>
-      <div class="item"><span class="x">✗</span> <b>Brought up the ending:</b> "the later stories about faked revenue and the <span class="leak">2025 insolvency</span>…"</div>
-      <div class="item"><span class="x">✗</span> <b>Cited a <span class="leak">2025 bankruptcy</span> article</b> as a source for pre-2023 facts.</div>
-      <div class="item"><span class="x">✗</span> <b>Used memory, not sources:</b> "This bullet comes from <span class="leak">my own recall</span>."</div>
-      <div class="item"><span class="x">✗</span> <b>"Verbatim" quote taken second-hand</b> from a Slashdot excerpt, never checked.</div>
+  <div class="ask">We asked the same AI the same question:<br><b>"What was known about Builder.ai's problems <span class="hl">as of May 2023</span>?"</b></div>
+  <div class="two">
+    <div class="side bad">
+      <div class="lab">Plain AI search</div>
+      <div class="verdict">Answered with <span class="leakbig">2025</span></div>
+      <ul>
+        <li>"…the later stories about faked revenue and the <mark>2025 insolvency</mark>"</li>
+        <li>Cited a <mark>2025 bankruptcy</mark> article as evidence for 2023</li>
+        <li>"This comes from <mark>my own recall</mark>"</li>
+      </ul>
+      <div class="tag">✗ Hindsight. Not evidence.</div>
     </div>
-    <div class="col good">
-      <h2>LookThrough time-travel search</h2>
-      <div class="sub">Claude Code + LookThrough MCP (Telem-routed)</div>
-      <div class="item"><span class="ok">✓</span> Found the Aug 2019 WSJ report ("exaggerates its AI capabilities to attract customers and investors"), the insider lawsuit, and the 2020 coverage, all dated before the cutoff.</div>
-      <div class="item"><span class="ok">✓</span> <b>Quote machine-verified:</b> exact match on The Verge's page: "uses human engineers in India and elsewhere to put together the app."</div>
-      <div class="item"><span class="ok">✓</span> <b>Knowable vs. acted:</b> despite the 2019 reports, Insight Partners led a $100M round in 2022.</div>
-      <div class="item"><span class="ok">✓</span> <b>Caught 2 sources with wrong provider dates</b> (labelled 2019 and 2022, really about 2025) and excluded them. A content scan now does this automatically.</div>
-      <div class="item"><span class="ok">✓</span> Screened all watchlists: none. "A fraud and misrepresentation risk, not a sanctions one."</div>
+    <div class="side good">
+      <div class="lab">LookThrough</div>
+      <div class="verdict">Only what was public <span class="okbig">then</span></div>
+      <ul>
+        <li>2019 WSJ: "exaggerates its AI capabilities to attract customers and investors"</li>
+        <li>"Uses human engineers in India… to put together the app": <b>quote verified on the page</b></li>
+        <li>Dropped 2 sources whose dates were wrong (really about 2025)</li>
+      </ul>
+      <div class="tag">✓ A record you can defend.</div>
     </div>
   </div>
-
-  <div class="score">
-    <div class="s"><h4>Hindsight leaks</h4><div>Plain <b style="color:var(--red)">3</b></div><div>LookThrough <b style="color:var(--green)">0</b></div></div>
-    <div class="s"><h4>Quotes machine-verified</h4><div>Plain <b style="color:var(--red)">0</b></div><div>LookThrough <b style="color:var(--green)">yes</b></div></div>
-    <div class="s"><h4>Answers from memory</h4><div>Plain <b style="color:var(--red)">yes</b></div><div>LookThrough <b style="color:var(--green)">never</b></div></div>
-    <div class="s"><h4>Audit trail</h4><div>Plain <b style="color:var(--red)">none</b></div><div>LookThrough <b style="color:var(--green)">hashes + Telem session</b></div></div>
-  </div>
-
-  <div class="bottom">In a lookback, <b>being right with hindsight is being wrong.</b> LookThrough produces an answer you can defend as a record of what was knowable.</div>
-  <div class="foot">Real outputs, run 2026-11-14; transcripts in docs/claude-code-demo.md. LookThrough's verify_quote checked the live page because no archive snapshot existed for it.</div>
+  <div class="punch">Smart AI search knows the ending. <b>In a lookback, being right with hindsight is being wrong.</b></div>
+  <div class="foot2">Real outputs from Claude Code with and without LookThrough, run 2026-11-14. Transcripts: github.com/DebLeong/lookthrough/blob/master/docs/claude-code-demo.md</div>
 </div>
 </body>
 </html>
