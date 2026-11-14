@@ -35,7 +35,7 @@
 "Here's Builder.ai mapped live: investors, owners, every claim quote-checked."
 
 **Slide 7 · 1:42**
-"Telem makes it possible: no single search engine sees it all, and the best one found only 64%. Telem routes every question and lets us search the web as it was on any date."
+"It's built on Telem. No single search engine sees it all: the best one alone found only 64% of our evidence. Telem sends each question to the right engines, reaches WeChat and LinkedIn, filters by publish date, and logs every search, so the whole investigation is traceable."
 
 **Slide 8 · 1:52**
 "Name a company, pick a date, and see what you could have known. LookThrough, built on Telem."
