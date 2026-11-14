@@ -48,6 +48,26 @@
 
 ---
 
+## Optional: live audience company (taking the risk)
+Timing measured on Moonshot AI: **first result about 45 s, finished in about 85 s**, $0.11, 2 entities at depth 1 (the app's default settings).
+
+**On stage, two-tab trick:**
+1. Before you start, open two tabs at http://localhost:8077.
+2. At 0:15, ask: *"Shout out any AI or tech company with ties to Asia."* The driver types it in **tab 2** and clicks **Run**.
+3. Do the normal demo in **tab 1**, using the replays.
+4. At about 2:30, switch to tab 2: *"…and here's the company you picked, built live in 90 seconds."*
+5. If it failed or looks thin, stay on tab 1. Nobody will notice.
+
+**Pre-run (instant, about 2 s):** Moonshot AI, DeepSeek, Zhipu AI, MiniMax, Unitree Robotics, DJI, ByteDance. Type the name exactly and click Run with the default settings.
+
+**At the judging table (5:30–6:30):** always offer it. *"Name a company."* Narrate the timeline while it builds.
+
+**Notes:**
+- A pure US company mostly comes back clear. That's fine: "it isn't alarmist" is a feature.
+- **Moonshot AI is a Sky9 portfolio company, and a Sky9 partner is judging.** Don't volunteer it. If a judge asks for it, frame the result as "exactly what your LPs will ask."
+
+---
+
 ## Q&A prep
 | Question | Answer |
 |---|---|

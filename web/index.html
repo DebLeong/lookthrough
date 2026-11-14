@@ -133,20 +133,20 @@ nav.chap a:hover{color:var(--text)}
   <section id="center">
     <div id="cy"></div>
     <div class="toolbar">
-      <input id="root" value="Manus AI" aria-label="Company or fund">
+      <input id="root" placeholder="Any company, e.g. DeepSeek" aria-label="Company or fund">
       <input id="asof" type="date" aria-label="As-of date" title="As-of date (optional): only evidence public on or before this date">
       <button class="btn" id="go">Run</button>
       <details><summary>Settings</summary><div class="pop">
         <div class="row">
           <div><label>Type</label><select id="kind"><option value="company">Company</option><option value="fund">Fund</option></select></div>
-          <div><label>Depth</label><select id="depth"><option>1</option><option selected>2</option><option>3</option></select></div>
+          <div><label>Depth</label><select id="depth"><option selected>1</option><option>2</option><option>3</option></select></div>
         </div>
         <div class="row">
-          <div><label>Entities</label><input id="nodes" type="number" value="5" min="1" max="20"></div>
-          <div><label>Budget $</label><input id="budget" type="number" value="1" step="0.25"></div>
+          <div><label>Entities</label><input id="nodes" type="number" value="2" min="1" max="20"></div>
+          <div><label>Budget $</label><input id="budget" type="number" value="0.5" step="0.25"></div>
         </div>
         <label>Policy</label>
-        <textarea id="policy">US investor. Flag outbound-investment (China AI / semiconductors / quantum) exposure and sanctions. Exclude firearms, controversial weapons and mass-surveillance technology.</textarea>
+        <textarea id="policy">US investor. Flag outbound-investment exposure and sanctions.</textarea>
       </div></details>
     </div>
     <div class="kpis" id="kpis" style="display:none">
