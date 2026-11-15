@@ -7,9 +7,10 @@ import json
 import queue
 import threading
 import time
+import uuid
 
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import FileResponse, StreamingResponse
+from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
@@ -40,8 +41,11 @@ def _public_refusal() -> str | None:
 _monitors: dict[str, dict] = {}
 
 
+_PAD = ":" + " " * 2048 + "\n"   # proxies (Cloudflare tunnel) buffer small chunks; padding forces a flush
+
+
 def _sse(evt: dict) -> str:
-    return f"data: {json.dumps(evt, default=str)}\n\n"
+    return f"{_PAD}data: {json.dumps(evt, default=str)}\n\n"
 
 
 @app.get("/")
@@ -112,13 +116,67 @@ async def run(root: str, policy: str = "", kind: str = "company", depth: int = 2
                 evt = q.get_nowait()
             except queue.Empty:
                 await asyncio.sleep(0.1)
-                yield ": keepalive\n\n"
+                yield _PAD + "\n"
                 continue
             if evt is None:
                 break
             yield _sse(evt)
 
-    return StreamingResponse(stream(), media_type="text/event-stream")
+    return StreamingResponse(stream(), media_type="text/event-stream", headers={"Cache-Control": "no-cache, no-transform", "X-Accel-Buffering": "no", "Connection": "keep-alive"})
+
+
+# ---- Polling API (works through proxies/tunnels that buffer event streams) ----
+_live: dict[str, dict] = {}
+
+
+@app.get("/api/start")
+def start(root: str, policy: str = "", kind: str = "company", depth: int = 2, nodes: int = 6,
+          budget: float = 0.75, as_of: str = ""):
+    if READONLY:
+        raise HTTPException(403, "Public demo is replay-only.")
+    if PUBLIC_LIVE:
+        depth, nodes, budget = min(depth, 1), min(nodes, 2), min(budget, 0.5)
+        why = _public_refusal()
+        if why or not _public_lock.acquire(blocking=False):
+            raise HTTPException(429, why or "Another live run is in progress.")
+    key = uuid.uuid4().hex[:12]
+    box = {"events": [], "done": False, "t": time.time()}
+    _live[key] = box
+
+    def work():
+        try:
+            r = LookThrough(root, policy=policy, root_kind=kind, max_depth=depth, max_nodes=nodes,
+                            budget_usd=budget, emit=box["events"].append, as_of=as_of or None).run()
+            if PUBLIC_LIVE and r["meter"]["spent_usd"] > 0:
+                _public_stamps.append(time.time())
+        except Exception as e:  # noqa: BLE001
+            box["events"].append({"type": "error", "msg": f"{type(e).__name__}: {e}"})
+        finally:
+            if PUBLIC_LIVE and _public_lock.locked():
+                _public_lock.release()
+            box["done"] = True
+
+    threading.Thread(target=work, daemon=True).start()
+    return {"key": key}
+
+
+@app.get("/api/events/{key}")
+def events(key: str, since: int = 0):
+    box = _live.get(key)
+    if not box:
+        raise HTTPException(404)
+    evs = box["events"][since:]
+    return JSONResponse(json.loads(json.dumps({"events": evs, "next": since + len(evs), "done": box["done"]}, default=str)))
+
+
+@app.get("/api/replay_json/{run_id}")
+def replay_json(run_id: str):
+    p = RUNS_DIR / f"{run_id}.json"
+    if not p.exists():
+        raise HTTPException(404)
+    d = json.loads(p.read_text())
+    evs = d.pop("events", [])
+    return {"events": evs, "result": d}
 
 
 @app.get("/api/can_run")
@@ -159,7 +217,7 @@ async def replay(run_id: str, speed: float = 4.0):
             yield _sse(e)
         yield _sse({"type": "done", "result": d})
 
-    return StreamingResponse(stream(), media_type="text/event-stream")
+    return StreamingResponse(stream(), media_type="text/event-stream", headers={"Cache-Control": "no-cache, no-transform", "X-Accel-Buffering": "no", "Connection": "keep-alive"})
 
 
 @app.get("/api/report/{run_id}")

@@ -121,6 +121,10 @@ nav.chap a:hover{color:var(--text)}
 .toolbar .pop{position:absolute;top:38px;left:0;width:340px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:4px 14px 14px;box-shadow:0 12px 30px #0008}
 .kpi small{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.7px;color:var(--dim);margin-bottom:1px}
 .disclaimer{color:var(--dim);font-size:11px;margin-top:18px;line-height:1.5}
+.spin{width:34px;height:34px;border:3px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:sp 0.9s linear infinite;margin-bottom:10px}
+@keyframes sp{to{transform:rotate(360deg)}}
+#go.busy{position:relative;color:transparent}
+#go.busy::after{content:"";position:absolute;inset:0;margin:auto;width:16px;height:16px;border:2px solid #04201c55;border-top-color:#04201c;border-radius:50%;animation:sp .8s linear infinite}
 </style>
 </head>
 <body>
@@ -135,7 +139,7 @@ nav.chap a:hover{color:var(--text)}
   <section id="center">
     <div id="cy"></div>
     <div class="toolbar">
-      <input id="root" placeholder="Any company, e.g. DeepSeek" aria-label="Company or fund">
+      <input id="root" placeholder="Any company, e.g. Builder.ai, Wirecard, Scale AI" aria-label="Company or fund">
       <input id="asof" type="date" aria-label="As-of date" title="As-of date (optional): only evidence public on or before this date">
       <button class="btn" id="go">Run</button>
       <details><summary>Settings</summary><div class="pop">
@@ -395,7 +399,7 @@ function renderTelem(){
 // ---------------- stream ----------------
 function log(msg){ const d=document.createElement("div"); d.innerHTML=msg; $("log").appendChild(d); $("log").scrollTop=1e9; }
 function reset(){
-  if(es) es.close(); S=fresh(); cy.elements().remove(); $("log").innerHTML="";
+  stopAll(); S=fresh(); cy.elements().remove(); $("log").innerHTML="";
   $("empty").innerHTML='<b>Map who really stands behind a deal</b><span>Owners, investors and subsidiaries discovered live from the web, every claim quote-verified.</span>';
   $("empty").style.display="flex"; $("empty").style.justifyContent="center"; $("empty").style.paddingBottom="0"; $("kpis").style.display="none"; $("focusBar").style.display="none";
   $("detail").innerHTML='<div class="desc">Select an entity to see why it is flagged.</div>'; delete $("detail").dataset.node;
@@ -421,13 +425,36 @@ function handle(e){
     const q=new URLSearchParams(location.search);
     showNode(q.get("select")&&S.nodes[q.get("select")]?q.get("select"):S.rootId);
     if(q.get("cut")) setTimeout(()=>setCut(q.get("cut")),60);
-    $("go").disabled=readonly; if(es) es.close(); loadRuns();
+    $("go").disabled=readonly; $("go").classList.remove("busy"); if(es) es.close(); loadRuns();
   }
 }
+let pollTimer=null;
+function stopAll(){ if(es) es.close(); if(pollTimer){ clearTimeout(pollTimer); pollTimer=null; } }
+function done_ui(){ $("go").disabled=readonly; $("go").classList.remove("busy"); }
+// Polling instead of EventSource: survives proxies/tunnels that buffer streams.
 function stream(url){
-  reset(); $("go").disabled=true;
-  es=new EventSource(url); es.onmessage=m=>handle(JSON.parse(m.data));
-  es.onerror=()=>{ es.close(); $("go").disabled=readonly; };
+  reset(); $("go").disabled=true; $("go").classList.add("busy");
+  if(url.startsWith("/api/replay/")){
+    const id=url.split("/api/replay/")[1].split("?")[0];
+    const speed=+(new URLSearchParams(url.split("?")[1]||"").get("speed")||8);
+    fetch(`/api/replay_json/${id}`).then(r=>r.json()).then(d=>{
+      let last=0, i=0;
+      const step=()=>{ if(i>=d.events.length){ handle({type:"done", result:d.result}); return; }
+        const e=d.events[i++]; const wait=Math.min(1200, Math.max(0,(e.t-last)/speed*1000)); last=e.t;
+        pollTimer=setTimeout(()=>{ handle(e); step(); }, wait); };
+      step();
+    }).catch(()=>done_ui());
+    return;
+  }
+  const qs=url.split("?")[1];
+  fetch("/api/start?"+qs).then(async r=>{ if(!r.ok){ const d=await r.json().catch(()=>({})); alert(d.detail||"Run refused"); done_ui(); return; }
+    const {key}=await r.json(); let since=0;
+    const poll=()=>fetch(`/api/events/${key}?since=${since}`).then(r=>r.json()).then(d=>{
+      d.events.forEach(handle); since=d.next;
+      if(!d.done) pollTimer=setTimeout(poll,700); else done_ui();
+    }).catch(()=>{ pollTimer=setTimeout(poll,1500); });
+    poll();
+  }).catch(()=>done_ui());
 }
 function openRun(id){ stream(`/api/replay/${id}?speed=8`); }
 function closeSettings(){ document.querySelector(".toolbar details").removeAttribute("open"); }
@@ -436,9 +463,13 @@ $("go").onclick=()=>{ if(readonly) return; closeSettings();
   const p=new URLSearchParams({root:$("root").value, kind:$("kind").value, depth:$("depth").value, nodes:$("nodes").value,
     budget:$("budget").value, policy:$("policy").value, as_of:$("asof").value});
   if(!$("root").value.trim()){ $("root").focus(); return; }
+  // Already investigated? Open the saved investigation instantly.
+  const want=$("root").value.trim().toLowerCase(), asof=$("asof").value||null;
+  const saved=runsCache.find(r=>r.root.toLowerCase()===want && (r.as_of||null)===asof);
+  if(saved){ closeSettings(); openRun(saved.run_id); return; }
   fetch("/api/can_run").then(r=>r.json()).then(c=>{ if(!c.ok){ alert(c.reason); return; }
     stream("/api/run?"+p);
-    $("empty").innerHTML=`<b>Researching ${esc($("root").value)}…</b><span>Searching 8 engines through Telem. First results in about 45 seconds; saved companies appear instantly.</span>`;
+    $("empty").innerHTML=`<div class="spin"></div><b>Researching ${esc($("root").value)}…</b><span>Searching 8 engines through Telem. First results in about 45 seconds; saved companies appear instantly.</span>`;
   }); };
 $("slider").oninput=applyCut;
 $("tllist").onclick=ev=>{ const it=ev.target.closest(".it"); if(it) setCut(it.dataset.d); };
