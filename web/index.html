@@ -139,7 +139,7 @@ nav.chap a:hover{color:var(--text)}
   <section id="center">
     <div id="cy"></div>
     <div class="toolbar">
-      <input id="root" placeholder="Any company, e.g. Builder.ai, Wirecard, Scale AI" aria-label="Company or fund">
+      <input id="root" placeholder="Company or ticker, e.g. Builder.ai, SMCI" aria-label="Company or fund">
       <input id="asof" type="date" aria-label="As-of date" title="As-of date (optional): only evidence public on or before this date">
       <button class="btn" id="go">Run</button>
       <details><summary>Settings</summary><div class="pop">
@@ -412,6 +412,7 @@ function handle(e){
   else if(e.type==="node") upsertNode(e.node);
   else if(e.type==="edge") addEdge(e.edge);
   else if(e.type==="timeline"){ S.timeline.push(e.item); renderTimeline(); }
+  else if(e.type==="resolved"){ $("root").value=e.root; $("empty").innerHTML=`<div class="spin"></div><b>${esc(e.note)}</b><span>Researching… first results in about a minute.</span>`; }
   else if(e.type==="log") log(`<b>${e.t.toFixed(1)}s</b> ${esc(e.msg)}`);
   else if(e.type==="meter"){ S.meter=e.meter; renderTelem(); kpis(); }
   else if(e.type==="error") log(`<b style="color:var(--red)">error</b> ${esc(e.msg)}`);

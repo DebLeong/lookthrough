@@ -15,6 +15,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from .agent import LookThrough
+from .tickers import resolve as resolve_ticker
 from .cache import ledger
 from .config import ROOT, RUNS_DIR, TELEM_API_KEY, TELEM_BASE_URL
 
@@ -142,6 +143,13 @@ def start(root: str, policy: str = "", kind: str = "company", depth: int = 2, no
     key = uuid.uuid4().hex[:12]
     box = {"events": [], "done": False, "t": time.time()}
     _live[key] = box
+    try:
+        root, note = resolve_ticker(root)
+    except Exception:  # noqa: BLE001  (never block a run on ticker lookup)
+        note = None
+    if note:
+        box["events"].append({"type": "log", "t": 0.0, "msg": note})
+        box["events"].append({"type": "resolved", "root": root, "note": note})
 
     def work():
         try:
