@@ -229,6 +229,15 @@ class LookThrough:
             for rt in self.meter.routes[n_routes:]:
                 self._log(f"Telem routed '{q[:48]}' as topic '{rt['topic']}' -> {', '.join(rt['providers'] or [])}", node.id)
             self._meter()
+        if not self.meter.exhausted and node.kind != "person" and node.depth == 0:
+            # Red-flag sweep on the target: the questions a diligence analyst asks first.
+            for q in (f"{name} short seller report fraud allegations",
+                      f"{name} auditor resigned restatement SEC investigation",
+                      f"{name} lawsuit DOJ probe regulator fine"):
+                if self.meter.exhausted:
+                    break
+                hits += self.sc.search(q, num_results=5, published_before=self.as_of)
+            self._meter()
         if not self.meter.exhausted and node.kind != "person":
             hits += self.sc.tavily_search(
                 f'"{name}" sanctions OR investigation OR Treasury OR fraud OR export controls OR military OR acquisition',
@@ -288,12 +297,12 @@ class LookThrough:
     # ---------------------------------------------------------- extraction
     def _extract(self, node: Node, admitted: list[dict], pages: dict[str, Page], platform: dict[str, list[Hit]]) -> dict:
         blocks, src_index = [], {}
-        for i, a in enumerate(admitted[:10]):
+        for i, a in enumerate(admitted[:14]):
             sid = f"S{i + 1}"
             hs = a["hits"]
             p = pages.get(a["read_url"])
             snippets = " ".join(h.snippet for h in hs)
-            body = (p.content[:4500] if p and p.ok else "") or snippets[:1200]
+            body = (p.content[:3500] if p and p.ok else "") or snippets[:1200]
             src_index[sid] = {"url": a["url"], "text": body + " " + snippets, "engines": sorted({h.engine for h in hs}),
                               "sha256": p.sha256 if p else None, "domain": hs[0].domain, "date": a["date"],
                               "snapshot": a["snapshot"]}
@@ -390,7 +399,7 @@ Return JSON:
             snaps = sum(1 for a in admitted if a["snapshot"])
             self._log(f"Time filter: admitted {len(admitted)} sources dated <= {self.as_of} "
                       f"({snaps} via archived snapshots), excluded {self.excluded_sources - before}", node.id)
-        to_read = [a["read_url"] for a in admitted[:5]]
+        to_read = [a["read_url"] for a in admitted[:8 if node.depth == 0 else 5]]
         pages: dict[str, Page] = {}
         if to_read and not self.meter.exhausted:
             for p in self.sc.read(to_read):
