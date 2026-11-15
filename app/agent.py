@@ -220,6 +220,8 @@ class LookThrough:
         else:
             queries = [f"{name} company headquarters founders incorporation",
                        f"{name} parent company shareholders subsidiaries ownership"]
+            if node.depth == 0:
+                queries.append(f"{name} funding round raised Series investors led by")
         hits: list[Hit] = []
         for q in queries:
             if self.meter.exhausted:
